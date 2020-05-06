@@ -1,10 +1,8 @@
 package com.aurora.service.service.auth;
 
-import com.aurora.common.model.ResultCode;
-import com.aurora.common.model.ResultModel;
 import com.aurora.common.util.JwtUtil;
 import com.aurora.model.auth.ResponseUserToken;
-import com.aurora.model.auth.UserDetail;
+import com.aurora.model.auth.User;
 import com.aurora.model.system.Role;
 import com.aurora.service.api.auth.AuthService;
 import com.aurora.service.mapper.auth.AuthMapper;
@@ -48,29 +46,29 @@ public class AuthServiceImpl implements AuthService {
 
     /**
      * 注册用户
-     * @param userDetail
+     * @param user
      * @return
      */
     @Override
-    public UserDetail register(UserDetail userDetail) {
+    public User register(User user) {
 
 //        if(authMapper.findByUsername(userDetail)!=null) {
 //            throw new CustomException(ResultModel.failure(ResultCode.BAD_REQUEST, "用户已存在"));
 //        }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        final String rawPassword = userDetail.getPassword();
+        final String rawPassword = user.getPassword();
 
-        userDetail.setPassword(encoder.encode(rawPassword));
-        userDetail.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
+        user.setPassword(encoder.encode(rawPassword));
+        user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
 
-        authMapper.saveUser(userDetail);
+        authMapper.insertUser(user);
 
-        long roleId = userDetail.getRole().getId();
+        long roleId = user.getRole().getId();
         Role role = authMapper.findRoleById(roleId);
-        userDetail.setRole(role);
+        user.setRole(role);
 
-        authMapper.insertRole(userDetail.getId(), roleId);
-        return userDetail;
+        authMapper.insertRole(user.getId(), roleId);
+        return user;
     }
 
     /**
@@ -86,11 +84,11 @@ public class AuthServiceImpl implements AuthService {
         //存储认证信息
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //生成token
-        final UserDetail userDetail = (UserDetail) authentication.getPrincipal();
-        final String token = jwtTokenUtil.generateAccessToken(userDetail);
+        final User user = (User) authentication.getPrincipal();
+        final String token = jwtTokenUtil.generateAccessToken(user);
         //存储token
         jwtTokenUtil.putToken(username, token);
-        return new ResponseUserToken(token, userDetail);
+        return new ResponseUserToken(token, user);
 
     }
 
@@ -105,16 +103,16 @@ public class AuthServiceImpl implements AuthService {
     public ResponseUserToken refresh(String oldToken) {
         String token = oldToken.substring(tokenHead.length());
         String username = jwtTokenUtil.getUsernameFromToken(token);
-        UserDetail userDetail = (UserDetail) userDetailsService.loadUserByUsername(username);
-        if (jwtTokenUtil.canTokenBeRefreshed(token, userDetail.getLastPasswordResetDate())){
+        User user = (User) userDetailsService.loadUserByUsername(username);
+        if (jwtTokenUtil.canTokenBeRefreshed(token, user.getLastPasswordResetDate())){
             token =  jwtTokenUtil.refreshToken(token);
-            return new ResponseUserToken(token, userDetail);
+            return new ResponseUserToken(token, user);
         }
         return null;
     }
 
     @Override
-    public UserDetail getUserByToken(String token) {
+    public User getUserByToken(String token) {
         token = token.substring(tokenHead.length());
         return jwtTokenUtil.getUserFromToken(token);
     }

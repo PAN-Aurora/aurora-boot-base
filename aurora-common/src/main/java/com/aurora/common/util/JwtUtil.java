@@ -1,7 +1,7 @@
 package com.aurora.common.util;
 
 import com.alibaba.fastjson.JSON;
-import com.aurora.model.auth.UserDetail;
+import com.aurora.model.auth.User;
 import com.aurora.model.system.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.CompressionCodecs;
@@ -41,19 +41,19 @@ public class JwtUtil {
 
     private final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
 
-    public UserDetail getUserFromToken(String token) {
-        UserDetail userDetail;
+    public User getUserFromToken(String token) {
+        User user;
         try {
             final Claims claims = getClaimsFromToken(token);
             long userId = getUserIdFromToken(token);
             String username = claims.getSubject();
             String roleName = claims.get(CLAIM_KEY_AUTHORITIES).toString();
             Role role = Role.builder().name(roleName).build();
-            userDetail = new UserDetail(userId, username, role, "");
+            user = new User(userId, username, role, "");
         } catch (Exception e) {
-            userDetail = null;
+            user = null;
         }
-        return userDetail;
+        return user;
     }
 
     public long getUserIdFromToken(String token) {
@@ -89,10 +89,10 @@ public class JwtUtil {
         return created;
     }
 
-    public String generateAccessToken(UserDetail userDetail) {
-        Map<String, Object> claims = generateClaims(userDetail);
-        claims.put(CLAIM_KEY_AUTHORITIES, authoritiesToArray(userDetail.getAuthorities()).get(0));
-        return generateAccessToken(userDetail.getUsername(), claims);
+    public String generateAccessToken(User user) {
+        Map<String, Object> claims = generateClaims(user);
+        claims.put(CLAIM_KEY_AUTHORITIES, authoritiesToArray(user.getAuthorities()).get(0));
+        return generateAccessToken(user.getUsername(), claims);
     }
 
     public Date getExpirationDateFromToken(String token) {
@@ -125,23 +125,23 @@ public class JwtUtil {
 
 
     public Boolean validateToken(String token, UserDetails userDetails) {
-        UserDetail userDetail = (UserDetail) userDetails;
+        User user = (User) userDetails;
         final long userId = getUserIdFromToken(token);
         final String username = getUsernameFromToken(token);
 //        final Date created = getCreatedDateFromToken(token);
-        return (userId == userDetail.getId()
-                && username.equals(userDetail.getUsername())
+        return (userId == user.getId()
+                && username.equals(user.getUsername())
                 && !isTokenExpired(token)
 //                && !isCreatedBeforeLastPasswordReset(created, userDetail.getLastPasswordResetDate())
         );
     }
 
-    public String generateRefreshToken(UserDetail userDetail) {
-        Map<String, Object> claims = generateClaims(userDetail);
+    public String generateRefreshToken(User user) {
+        Map<String, Object> claims = generateClaims(user);
         // 只授于更新 token 的权限
         String roles[] = new String[]{JwtUtil.ROLE_REFRESH_TOKEN};
         claims.put(CLAIM_KEY_AUTHORITIES, JSON.toJSONString(roles));
-        return generateRefreshToken(userDetail.getUsername(), claims);
+        return generateRefreshToken(user.getUsername(), claims);
     }
 
     public void putToken(String userName, String token) {
@@ -184,9 +184,9 @@ public class JwtUtil {
         return (lastPasswordReset != null && created.before(lastPasswordReset));
     }
 
-    private Map<String, Object> generateClaims(UserDetail userDetail) {
+    private Map<String, Object> generateClaims(User user) {
         Map<String, Object> claims = new HashMap<>(16);
-        claims.put(CLAIM_KEY_USER_ID, userDetail.getId());
+        claims.put(CLAIM_KEY_USER_ID, user.getId());
         return claims;
     }
 

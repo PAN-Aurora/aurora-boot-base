@@ -11,7 +11,7 @@ import org.apache.ibatis.annotations.Mapper;
  * @create 2020-05-01 23:42
  **/
 @Mapper
-public interface SysLogMapper extends BaseMapper<SysLog> {
+public interface SysLogMapper  extends BaseMapper<SysLog> {
 
 
 }

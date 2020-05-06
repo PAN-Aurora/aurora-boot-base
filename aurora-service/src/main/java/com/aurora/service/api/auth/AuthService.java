@@ -1,7 +1,7 @@
 package com.aurora.service.api.auth;
 
 import com.aurora.model.auth.ResponseUserToken;
-import com.aurora.model.auth.UserDetail;
+import com.aurora.model.auth.User;
 
 /**
  * 权限登录接口定义
@@ -12,10 +12,10 @@ public interface AuthService {
 
     /**
      * 注册用户
-     * @param userDetail
+     * @param user
      * @return
      */
-    UserDetail register(UserDetail userDetail);
+    User register(User user);
 
     /**
      * 登陆
@@ -43,5 +43,5 @@ public interface AuthService {
      * @param token
      * @return
      */
-    UserDetail getUserByToken(String token);
+    User getUserByToken(String token);
 }

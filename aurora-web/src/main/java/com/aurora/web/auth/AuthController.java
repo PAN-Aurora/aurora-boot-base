@@ -3,8 +3,9 @@ package com.aurora.web.auth;
 import com.aurora.common.model.ResultCode;
 import com.aurora.common.model.ResultModel;
 import com.aurora.config.annotation.PassJwtToken;
+import com.aurora.config.annotation.SystemLog;
 import com.aurora.model.auth.ResponseUserToken;
-import com.aurora.model.auth.UserDetail;
+import com.aurora.model.auth.User;
 import com.aurora.model.system.Role;
 import com.aurora.service.api.auth.AuthService;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
@@ -40,7 +41,7 @@ public class AuthController {
      */
     @PostMapping(value = "/login")
     @PassJwtToken
-    public ResponseUserToken login(@Valid @RequestBody UserDetail user){
+    public ResponseUserToken login(@Valid @RequestBody User user){
 
         ResponseUserToken response = authService.login(user.getUsername(), user.getPassword());
         return response;
@@ -68,8 +69,8 @@ public class AuthController {
         if (token == null) {
             return ResultModel.failure(ResultCode.UNAUTHORIZED);
         }
-        UserDetail userDetail = authService.getUserByToken(token);
-        return ResultModel.success(ResultCode.SUCCESS,userDetail);
+        User user = authService.getUserByToken(token);
+        return ResultModel.success(ResultCode.SUCCESS, user);
     }
 
     /**
@@ -78,12 +79,13 @@ public class AuthController {
      * @return
      */
     @PostMapping(value = "/sign")
+    @SystemLog(module="用户权限模块",methods="用户注册",url="/api/v1/sign", desc="用户注册")
     @PassJwtToken
-    public ResultModel sign(@RequestBody UserDetail user) {
+    public ResultModel sign(@RequestBody User user) {
         if (StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())) {
             return ResultModel.failure(ResultCode.BAD_REQUEST);
         }
-        UserDetail userDetail = new UserDetail(user.getUsername(), user.getPassword(), Role.builder().id(1).build());
+        User userDetail = new User(user.getUsername(), user.getPassword(), Role.builder().id(1).build());
         return ResultModel.success(ResultCode.SUCCESS,authService.register(userDetail));
     }
 //    @GetMapping(value = "refresh")

@@ -10,7 +10,8 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
  * @author 项目启动类
  * @create 2020-04-28 22:32
  **/
-@SpringBootApplication(scanBasePackages = {"com.aurora.web"
+@SpringBootApplication(scanBasePackages = {
+         "com.aurora.web"
         ,"com.aurora.service"
         ,"com.aurora.config"})
 @ServletComponentScan

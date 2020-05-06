@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
  **/
 @EnableTransactionManagement
 @Configuration
-@MapperScan("com.aurora.service.mapper")
+//@MapperScan("com.aurora.service.mapper")
 public class MybatisPlusConfig {
 
     /**

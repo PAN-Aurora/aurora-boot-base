@@ -4,7 +4,7 @@
 <mapper namespace="com.aurora.service.mapper.auth.AuthMapper">
 
     <!--通过名称查询用户信息-->
-     <select id="findByUsername" parameterType="com.aurora.model.auth.UserDetail" resultType="com.aurora.model.auth.UserDetail">
+     <select id="findByUsername" parameterType="com.aurora.model.auth.User" resultType="com.aurora.model.auth.User">
         SELECT
          t.id
         ,t.loginname
@@ -18,7 +18,7 @@
      </select>
 
     <!--通过用户id查询角色信息-->
-     <select id="findRoleByUserId" parameterType="com.aurora.model.auth.UserDetail" resultType="com.aurora.model.system.Role">
+     <select id="findRoleByUserId" parameterType="com.aurora.model.auth.User" resultType="com.aurora.model.system.Role">
           select
             r.id
             ,r.`name`
@@ -31,7 +31,7 @@
      </select>
 
 
-    <select id="findRoleByUserId" parameterType="com.aurora.model.auth.UserDetail" resultType="com.aurora.model.system.Role" >
+    <select id="findRoleByUserId" parameterType="com.aurora.model.auth.User" resultType="com.aurora.model.system.Role" >
       select
          r.id
         ,r.`name`
@@ -42,7 +42,7 @@
         where r.id = #{roleId}
     </select>
 
-    <insert id="saveUser" parameterType="com.aurora.model.auth.UserDetail">
+    <insert id="insertUser" parameterType="com.aurora.model.auth.User">
         insert into sys_user (name, password) VALUES (#{username}, #{password});
     </insert>
 

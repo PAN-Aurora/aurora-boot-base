@@ -21,7 +21,7 @@ import java.io.Serializable;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("ROLE")
+@TableName("SYS_ROLE")
 public class TestModel implements Serializable {
 
     @TableId(value = "ID", type = IdType.AUTO)

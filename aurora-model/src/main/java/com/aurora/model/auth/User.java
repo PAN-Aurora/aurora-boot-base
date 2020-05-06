@@ -27,7 +27,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("SYS_USER")
-public class UserDetail implements UserDetails {
+public class User implements UserDetails {
 
     @TableId(value = "ID", type = IdType.AUTO)
     private long id;
@@ -44,10 +44,10 @@ public class UserDetail implements UserDetails {
 
     private Date lastPasswordResetDate;
 
-    public UserDetail() {
+    public User() {
     }
 
-    public UserDetail(
+    public User(
             long id,
             String username,
             Role role,
@@ -60,13 +60,13 @@ public class UserDetail implements UserDetails {
 //        this.lastPasswordResetDate = lastPasswordResetDate;
     }
 
-    public UserDetail(String username, String password, Role role) {
+    public User(String username, String password, Role role) {
         this.username = username;
         this.password = password;
         this.role = role;
     }
 
-    public UserDetail(long id, String username, String password) {
+    public User(long id, String username, String password) {
         this.id = id;
         this.username = username;
         this.password = password;

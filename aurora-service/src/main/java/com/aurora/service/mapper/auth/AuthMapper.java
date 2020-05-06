@@ -1,8 +1,9 @@
 package com.aurora.service.mapper.auth;
 
-import com.aurora.model.auth.UserDetail;
+import com.aurora.model.auth.User;
 import com.aurora.model.system.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 
@@ -11,27 +12,28 @@ import org.apache.ibatis.annotations.Param;
  * @author PHQ
  * @create 2020-05-03 11:39
  **/
-public interface AuthMapper  extends BaseMapper<UserDetail> {
+@Mapper
+public interface AuthMapper  extends BaseMapper<User> {
     /**
      * 通过用户名 查询用户信息
      * @param user
      * @return
      */
-    public UserDetail findByUsername(UserDetail user);
+    public User findByUsername(User user);
 
     /**
      * 通过用户id 查询对象的角色列表
      * @param user
      * @return
      */
-    public Role findRoleByUserId(UserDetail user);
+    public Role findRoleByUserId(User user);
 
 
     /**
      * 创建新用户
-     * @param userDetail
+     * @param user
      */
-    void saveUser(UserDetail userDetail);
+    int insertUser(User user);
 
     /**
      * 创建用户角色

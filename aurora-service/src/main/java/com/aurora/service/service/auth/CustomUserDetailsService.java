@@ -1,6 +1,6 @@
 package com.aurora.service.service.auth;
 
-import com.aurora.model.auth.UserDetail;
+import com.aurora.model.auth.User;
 import com.aurora.model.system.Role;
 import com.aurora.service.mapper.auth.AuthMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +24,11 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     @Override
-    public UserDetail loadUserByUsername(String name) throws UsernameNotFoundException {
-        UserDetail userLogin = new UserDetail();
+    public User loadUserByUsername(String name) throws UsernameNotFoundException {
+        User userLogin = new User();
         userLogin.setUsername(name);
         //查询登录的用户
-        UserDetail user = authMapper.findByUsername(userLogin);
+        User user = authMapper.findByUsername(userLogin);
         if (user == null) {
             throw new UsernameNotFoundException(String.format("No user found with username '%s'.", name));
         }
