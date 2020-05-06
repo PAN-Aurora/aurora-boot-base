@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.aurora.service.mapper.auth.AuthMapper">
+
+    <!--通过名称查询用户信息-->
+     <select id="findByUsername" parameterType="com.aurora.model.auth.UserDetail" resultType="com.aurora.model.auth.UserDetail">
+        SELECT
+         t.id
+        ,t.loginname
+        ,t.`name`
+        ,t.`password`
+        ,t.usertype
+        from sys_user t
+        where t.`status` = 0
+        and t.loginname = #{username}
+
+     </select>
+
+    <!--通过用户id查询角色信息-->
+     <select id="findRoleByUserId" parameterType="com.aurora.model.auth.UserDetail" resultType="com.aurora.model.system.Role">
+          select
+            r.id
+            ,r.`name`
+            ,r.description
+            ,r.`status`
+            ,r.seq
+            from sys_role r
+            inner join sys_user_role ur on ur.role_id = r.id
+            where ur.user_id = #{id}
+     </select>
+
+
+    <select id="findRoleByUserId" parameterType="com.aurora.model.auth.UserDetail" resultType="com.aurora.model.system.Role" >
+      select
+         r.id
+        ,r.`name`
+        ,r.description
+        ,r.`status`
+        ,r.seq
+        from sys_role r
+        where r.id = #{roleId}
+    </select>
+
+    <insert id="saveUser" parameterType="com.aurora.model.auth.UserDetail">
+        insert into sys_user (name, password) VALUES (#{username}, #{password});
+    </insert>
+
+
+    <insert id="insertRole">
+        insert into sys_user_role (user_id, role_id) VALUES (#{userId}, #{roleId});
+    </insert>
+
+
+</mapper>
