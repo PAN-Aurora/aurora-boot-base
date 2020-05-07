@@ -92,16 +92,16 @@ public class AuthController {
         User userDetail = new User(user.getUsername(), user.getPassword(), Role.builder().id(1).build());
         return ResultModel.success(ResultCode.SUCCESS,authService.register(userDetail));
     }
-//    @GetMapping(value = "refresh")
-//    @ApiOperation(value = "刷新token")
-//    public ResultJson refreshAndGetAuthenticationToken(
-//            HttpServletRequest request){
-//        String token = request.getHeader(tokenHeader);
-//        ResponseUserToken response = authService.refresh(token);
-//        if(response == null) {
-//            return ResultJson.failure(ResultCode.BAD_REQUEST, "token无效");
-//        } else {
-//            return ResultJson.ok(response);
-//        }
-//    }
+
+    @GetMapping(value = "refresh")
+    @ApiOperation(value = "刷新token")
+    public ResultModel refreshAndGetAuthenticationToken(HttpServletRequest request){
+        String token = request.getHeader(tokenHeader);
+        ResponseUserToken response = authService.refresh(token);
+        if(response == null) {
+            return ResultModel.failure(ResultCode.BAD_REQUEST, "token无效");
+        } else {
+            return ResultModel.success();
+        }
+    }
 }

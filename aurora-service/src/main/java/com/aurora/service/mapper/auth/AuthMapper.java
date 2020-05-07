@@ -13,8 +13,8 @@ import org.springframework.stereotype.Repository;
  * @author PHQ
  * @create 2020-05-03 11:39
  **/
-//@Repository
-@Mapper
+@Repository
+//@Mapper
 public interface AuthMapper  extends BaseMapper<User> {
     /**
      * 通过用户名 查询用户信息

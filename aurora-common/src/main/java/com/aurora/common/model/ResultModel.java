@@ -33,6 +33,10 @@ public class ResultModel <T>  implements Serializable {
         return new ResultModel(resultCode.getCode(), JSON.toJSONString(msg)) ;
     }
 
+    public static  ResultModel success(){
+        return new ResultModel(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMsg()) ;
+    }
+
     public static  ResultModel failure(ResultCode resultCode){
         return new ResultModel(resultCode.getCode(),resultCode.getMsg()) ;
     }

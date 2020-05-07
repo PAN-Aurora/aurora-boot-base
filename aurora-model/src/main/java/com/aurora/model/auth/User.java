@@ -18,8 +18,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * ${DESCRIPTION}
- *
+ *  用户model
  * @author PHQ
  * @create 2020-05-02 20:45
  **/
@@ -52,13 +51,11 @@ public class User implements UserDetails {
             long id,
             String username,
             Role role,
-//            Date lastPasswordResetDate,
             String password) {
-        this.id = id;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-//        this.lastPasswordResetDate = lastPasswordResetDate;
+                this.id = id;
+                this.username = username;
+                this.password = password;
+                this.role = role;
     }
 
     public User(String username, String password, Role role) {

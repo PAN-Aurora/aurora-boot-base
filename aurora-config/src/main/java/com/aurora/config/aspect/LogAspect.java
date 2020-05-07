@@ -2,7 +2,7 @@ package com.aurora.config.aspect;
 
 import com.aurora.config.annotation.SystemLog;
 import com.aurora.model.system.SysLog;
-import com.aurora.service.api.system.SysLogApi;
+import com.aurora.service.api.system.SysLogService;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
 import java.lang.reflect.Method;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
@@ -32,7 +31,7 @@ public class LogAspect {
     private static final Logger logger = LoggerFactory.getLogger(LogAspect.class);
 
     @Autowired
-    private SysLogApi sysLogApi;
+    private SysLogService sysLogService;
 
     //定义切点 针对类上注解含有SystemLog
     @Pointcut(value = "@annotation(com.aurora.config.annotation.SystemLog)")
@@ -64,7 +63,7 @@ public class LogAspect {
             log.setLogMothod(systemLog.methods());
             log.setLogCreateTime(new Timestamp(System.currentTimeMillis()));
             log.setLogType(1);
-            sysLogApi.saveLog(log);
+            sysLogService.saveLog(log);
         }
 
     }
@@ -97,7 +96,7 @@ public class LogAspect {
                 log.setLogMothod(systemLog.methods());
                 log.setLogCreateTime(new Timestamp(System.currentTimeMillis()));
                 log.setLogType(2);
-                sysLogApi.saveLog(log);
+                sysLogService.saveLog(log);
             }
 
         }

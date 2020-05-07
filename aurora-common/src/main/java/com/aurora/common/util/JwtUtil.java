@@ -26,10 +26,9 @@ import java.util.concurrent.ConcurrentHashMap;
 public class JwtUtil {
 
     public static final String ROLE_REFRESH_TOKEN = "ROLE_REFRESH_TOKEN";
-
     private static final String CLAIM_KEY_USER_ID = "user_id";
     private static final String CLAIM_KEY_AUTHORITIES = "scope";
-
+    //用来存token
     private Map<String, String> tokenMap = new ConcurrentHashMap<>(32);
 
     //@Value("${jwt.secret}")
@@ -41,8 +40,14 @@ public class JwtUtil {
    // @Value("${jwt.expiration}")
     private Long refresh_token_expiration =Global.JWT_EXPIRATION;
 
+    //签名算法hs256
     private final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
 
+    /**
+     * 从token中获取用户信息
+     * @param token
+     * @return
+     */
     public User getUserFromToken(String token) {
         User user;
         try {
@@ -58,6 +63,11 @@ public class JwtUtil {
         return user;
     }
 
+    /**
+     * 获取用户主键id
+     * @param token
+     * @return
+     */
     public long getUserIdFromToken(String token) {
         long userId;
         try {
@@ -69,6 +79,11 @@ public class JwtUtil {
         return userId;
     }
 
+    /**
+     * 获取用户名
+     * @param token
+     * @return
+     */
     public String getUsernameFromToken(String token) {
         String username;
         try {
@@ -80,6 +95,11 @@ public class JwtUtil {
         return username;
     }
 
+    /**
+     * 获取token创建时间
+     * @param token
+     * @return
+     */
     public Date getCreatedDateFromToken(String token) {
         Date created;
         try {
@@ -91,12 +111,22 @@ public class JwtUtil {
         return created;
     }
 
+    /**
+     * 生成token
+     * @param user
+     * @return
+     */
     public String generateAccessToken(User user) {
         Map<String, Object> claims = generateClaims(user);
         claims.put(CLAIM_KEY_AUTHORITIES, authoritiesToArray(user.getAuthorities()).get(0));
         return generateAccessToken(user.getUsername(), claims);
     }
 
+    /**
+     * 根据时间判断你是否过期
+     * @param token
+     * @return
+     */
     public Date getExpirationDateFromToken(String token) {
         Date expiration;
         try {
@@ -114,6 +144,11 @@ public class JwtUtil {
                 && (!isTokenExpired(token));
     }
 
+    /**
+     * 执行刷新token操作
+     * @param token
+     * @return
+     */
     public String refreshToken(String token) {
         String refreshedToken;
         try {
@@ -125,7 +160,12 @@ public class JwtUtil {
         return refreshedToken;
     }
 
-
+    /**
+     * token校验
+     * @param token
+     * @param userDetails
+     * @return
+     */
     public Boolean validateToken(String token, UserDetails userDetails) {
         User user = (User) userDetails;
         final long userId = getUserIdFromToken(token);
@@ -146,20 +186,41 @@ public class JwtUtil {
         return generateRefreshToken(user.getUsername(), claims);
     }
 
+    /**
+     * 往同步map 存放token
+     * @param userName
+     * @param token
+     */
     public void putToken(String userName, String token) {
         tokenMap.put(userName, token);
     }
 
+    /**
+     * 删除token
+     * @param userName
+     */
     public void deleteToken(String userName) {
         tokenMap.remove(userName);
     }
 
+    /**
+     * 同步map 是否存在token
+     * @param userName
+     * @param token
+     * @return
+     */
     public boolean containToken(String userName, String token) {
         if (userName != null && tokenMap.containsKey(userName) && tokenMap.get(userName).equals(token)) {
             return true;
         }
         return false;
     }
+
+    /**
+     *  从token中获取Claims 载荷(Payload)
+     * @param token
+     * @return
+     */
     private Claims getClaimsFromToken(String token) {
         Claims claims;
         try {
@@ -173,10 +234,20 @@ public class JwtUtil {
         return claims;
     }
 
+    /**
+     * 过期时间
+     * @param expiration
+     * @return
+     */
     private Date generateExpirationDate(long expiration) {
         return new Date(System.currentTimeMillis() + expiration * 1000);
     }
 
+    /**
+     * 判断token是否过期
+     * @param token
+     * @return
+     */
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
         return expiration.before(new Date());
@@ -192,10 +263,21 @@ public class JwtUtil {
         return claims;
     }
 
+    /**
+     * 组装用户及jwt相关信息 生成token
+     * @param subject
+     * @param claims
+     * @return
+     */
     private String generateAccessToken(String subject, Map<String, Object> claims) {
         return generateToken(subject, claims, access_token_expiration);
     }
 
+    /**
+     * 用户相关权限
+     * @param authorities
+     * @return
+     */
     private List authoritiesToArray(Collection<? extends GrantedAuthority> authorities) {
         List<String> list = new ArrayList<>();
         for (GrantedAuthority ga : authorities) {
@@ -204,22 +286,33 @@ public class JwtUtil {
         return list;
     }
 
-
+    /**
+     * 刷新 token 设置新的过期时间
+     * @param subject
+     * @param claims
+     * @return
+     */
     private String generateRefreshToken(String subject, Map<String, Object> claims) {
         return generateToken(subject, claims, refresh_token_expiration);
     }
 
 
-
+    /**
+     *  生成token
+     * @param subject   用户信息 名称
+     * @param claims     载荷
+     * @param expiration  过期时间
+     * @return
+     */
     private String generateToken(String subject, Map<String, Object> claims, long expiration) {
         return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(subject)
-                .setId(UUID.randomUUID().toString())
-                .setIssuedAt(new Date())
-                .setExpiration(generateExpirationDate(expiration))
+                .setClaims(claims)   //创建payload的私有声明
+                .setSubject(subject)  //jwt主体 可以理解为与用户唯一标识
+                .setId(UUID.randomUUID().toString()) //token id
+                .setIssuedAt(new Date()) //jwt的签发时间
+                .setExpiration(generateExpirationDate(expiration)) //过期时间
                 .compressWith(CompressionCodecs.DEFLATE)
-                .signWith(SIGNATURE_ALGORITHM, secret)
+                .signWith(SIGNATURE_ALGORITHM, secret) //jwt使用的算法和秘钥
                 .compact();
     }
 

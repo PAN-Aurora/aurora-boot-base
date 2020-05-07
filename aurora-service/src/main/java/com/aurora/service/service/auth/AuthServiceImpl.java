@@ -52,22 +52,22 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public User register(User user) {
-//
-//        if(authMapper.findByUsername(user)!=null) {
-//            throw new CustomException(ResultModel.failure(ResultCode.BAD_REQUEST, "用户已存在"));
-//        }
+        //校验用户
+        if(authMapper.findByUsername(user)!=null) {
+            //throw new CustomException(ResultModel.failure(ResultCode.BAD_REQUEST, "用户已存在"));
+        }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         final String rawPassword = user.getPassword();
 
         user.setPassword(encoder.encode(rawPassword));
         user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
-
+        //保存用户
         authMapper.insertUser(user);
-
+        //获取用户角色
         long roleId = user.getRole().getId();
         Role role = authMapper.findRoleById(roleId);
         user.setRole(role);
-
+        //保存用户和角色关系
         authMapper.insertRole(user.getId(), roleId);
         return user;
     }
@@ -89,6 +89,7 @@ public class AuthServiceImpl implements AuthService {
         final String token = jwtTokenUtil.generateAccessToken(user);
         //存储token
         jwtTokenUtil.putToken(username, token);
+        //返回token与用户信息
         return new ResponseUserToken(token, user);
 
     }

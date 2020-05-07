@@ -136,18 +136,19 @@
 			<version>0.9.0</version>
 		</dependency>
 
+		<!--传统的xml或properties配置需要依赖-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-configuration-processor</artifactId>
 			<optional>true</optional>
 		</dependency>
+
 		<!--jwt token -->
 		<!--<dependency>-->
 			<!--<groupId>com.auth0</groupId>-->
 			<!--<artifactId>java-jwt</artifactId>-->
 			<!--<version>3.4.0</version>-->
 		<!--</dependency>-->
-
 
 		<!--springboot test-->
 		<dependency>

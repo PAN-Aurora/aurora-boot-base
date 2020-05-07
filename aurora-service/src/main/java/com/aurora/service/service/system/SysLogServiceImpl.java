@@ -1,7 +1,7 @@
 package com.aurora.service.service.system;
 
 import com.aurora.model.system.SysLog;
-import com.aurora.service.api.system.SysLogApi;
+import com.aurora.service.api.system.SysLogService;
 import com.aurora.service.mapper.system.SysLogMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
  * @create 2020-05-01 23:45
  **/
 @Service
-public class SysLogServiceImpl implements SysLogApi {
+public class SysLogServiceImpl implements SysLogService {
 
     @Autowired
     private SysLogMapper sysLogMapper;

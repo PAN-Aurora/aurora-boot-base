@@ -8,7 +8,7 @@ import com.aurora.model.system.SysLog;
  * @author PHQ
  * @create 2020-05-01 23:46
  **/
-public interface SysLogApi {
+public interface SysLogService {
 
     public int saveLog(SysLog sysLog);
 }
