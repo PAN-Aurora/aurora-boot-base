@@ -73,8 +73,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
 
                 // 对于获取token的rest api要允许匿名访问
-                .antMatchers("/api/v1/auth", "/api/v1/signout", "/error/**", "/api/**").permitAll()
+                .antMatchers("/api/auth/**", "/api/auth/signout", "/error/**", "/api/**").permitAll()
 
+                .antMatchers("/springfox*", "/swagger*").permitAll()
                 //过滤post OPTIONS的请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
@@ -95,9 +96,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-resources/configuration/ui",
                 "/swagger-resources",
                 "/swagger-resources/configuration/security",
-                "/swagger-ui.html"
+                "/swagger-ui.html",
+                "/springfox*",
+                "/swagger*"
         )
-        .antMatchers("/api/v1/sign","/api/v1/signout"
+        .antMatchers("/api/auth/sign","/api/auth/signout","/api/auth/**"
 
         );
     }

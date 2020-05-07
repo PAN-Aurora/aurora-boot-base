@@ -13,14 +13,15 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 @SpringBootApplication(scanBasePackages = {
          "com.aurora.web"
         ,"com.aurora.service"
-        ,"com.aurora.config"})
+        ,"com.aurora.config"
+        ,"com.aurora.common"
+      })
 @ServletComponentScan
-@MapperScan("com.aurora.service.mapper")
+@MapperScan("com.aurora.*.mapper")
 public class SpringbootWebStart {
     private static final Logger logger = LoggerFactory.getLogger(SpringbootWebStart.class);
-
     public static void main(String[] args) {
         SpringApplication.run(SpringbootWebStart.class, args);
-        logger.debug("#############启动完成#############");
+        logger.info("#############启动完成#############");
     }
 }

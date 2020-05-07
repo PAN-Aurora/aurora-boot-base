@@ -15,7 +15,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        JwtTokenInterceptor jwtTokenInterceptor = new JwtTokenInterceptor();
-        registry.addInterceptor(jwtTokenInterceptor);
+        //针对所有进行拦截
+        registry.addInterceptor(new JwtTokenInterceptor()).addPathPatterns("/**");
     }
 }

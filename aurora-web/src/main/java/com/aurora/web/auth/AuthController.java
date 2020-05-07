@@ -9,6 +9,8 @@ import com.aurora.model.auth.User;
 import com.aurora.model.system.Role;
 import com.aurora.service.api.auth.AuthService;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -22,7 +24,7 @@ import javax.validation.Valid;
  * @create 2020-05-03 12:22
  **/
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/auth")
 public class AuthController {
     @Value("${jwt.header}")
     private String tokenHeader;
@@ -41,6 +43,8 @@ public class AuthController {
      */
     @PostMapping(value = "/login")
     @PassJwtToken
+    @SystemLog(module="用户登录",methods="用户登录",url="/api/auth/login", desc="用户登录")
+    @ApiOperation(value = "登录接口",notes = "登录接口需要用户对象",httpMethod = "POST")
     public ResponseUserToken login(@Valid @RequestBody User user){
 
         ResponseUserToken response = authService.login(user.getUsername(), user.getPassword());

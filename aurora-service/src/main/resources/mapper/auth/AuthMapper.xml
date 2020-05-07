@@ -8,21 +8,20 @@
         SELECT
          t.id
         ,t.loginname
-        ,t.`name`
+        ,t.username
         ,t.`password`
         ,t.usertype
         from sys_user t
         where t.`status` = 0
-        and t.loginname = #{username}
+        and t.username = #{username}
 
      </select>
 
     <!--通过用户id查询角色信息-->
      <select id="findRoleByUserId" parameterType="com.aurora.model.auth.User" resultType="com.aurora.model.system.Role">
           select
-            r.id
+             r.id
             ,r.`name`
-            ,r.description
             ,r.`status`
             ,r.seq
             from sys_role r
@@ -30,23 +29,23 @@
             where ur.user_id = #{id}
      </select>
 
-
-    <select id="findRoleByUserId" parameterType="com.aurora.model.auth.User" resultType="com.aurora.model.system.Role" >
+    <!-- 通过角色id查询角色信息-->
+    <select id="findRoleById" resultType="com.aurora.model.system.Role" >
       select
          r.id
         ,r.`name`
-        ,r.description
         ,r.`status`
         ,r.seq
         from sys_role r
         where r.id = #{roleId}
     </select>
 
-    <insert id="insertUser" parameterType="com.aurora.model.auth.User">
-        insert into sys_user (name, password) VALUES (#{username}, #{password});
+    <!-- 新增用户 -->
+    <insert id="insertUser" parameterType="com.aurora.model.auth.User" useGeneratedKeys="true" keyProperty="id">
+        insert into sys_user (username, password) VALUES (#{username}, #{password});
     </insert>
 
-
+    <!-- 新增用户权限-->
     <insert id="insertRole">
         insert into sys_user_role (user_id, role_id) VALUES (#{userId}, #{roleId});
     </insert>

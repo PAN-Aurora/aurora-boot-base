@@ -32,16 +32,17 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtTokenUtil = new JwtUtil();
-    private final AuthMapper authMapper;
+
+    @Autowired
+    private  AuthMapper authMapper;
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
 
     @Autowired
-    public AuthServiceImpl(AuthenticationManager authenticationManager, @Qualifier("CustomUserDetailsService") UserDetailsService userDetailsService, AuthMapper authMapper) {
+    public AuthServiceImpl(AuthenticationManager authenticationManager, @Qualifier("CustomUserDetailsService") UserDetailsService userDetailsService) {
         this.authenticationManager = authenticationManager;
         this.userDetailsService = userDetailsService;
-        this.authMapper = authMapper;
     }
 
     /**
@@ -51,8 +52,8 @@ public class AuthServiceImpl implements AuthService {
      */
     @Override
     public User register(User user) {
-
-//        if(authMapper.findByUsername(userDetail)!=null) {
+//
+//        if(authMapper.findByUsername(user)!=null) {
 //            throw new CustomException(ResultModel.failure(ResultCode.BAD_REQUEST, "用户已存在"));
 //        }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

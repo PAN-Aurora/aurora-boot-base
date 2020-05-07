@@ -30,7 +30,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         //查询登录的用户
         User user = authMapper.findByUsername(userLogin);
         if (user == null) {
-            throw new UsernameNotFoundException(String.format("No user found with username '%s'.", name));
+            throw new UsernameNotFoundException(String.format("没有发现用户： '%s'.", name));
         }
         //查询用户登录角色
         Role role = authMapper.findRoleByUserId(user);

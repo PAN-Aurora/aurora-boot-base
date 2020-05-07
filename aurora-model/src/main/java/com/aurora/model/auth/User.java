@@ -32,16 +32,17 @@ public class User implements UserDetails {
     @TableId(value = "ID", type = IdType.AUTO)
     private long id;
 
-    @TableField("NAME")
+    @TableField("USERNAME")
     private String username;
 
     @TableField("PASSWORD")
     private String password;
 
 
-
+    @TableField(exist = false)
     private Role role;
 
+    @TableField(exist = false)
     private Date lastPasswordResetDate;
 
     public User() {

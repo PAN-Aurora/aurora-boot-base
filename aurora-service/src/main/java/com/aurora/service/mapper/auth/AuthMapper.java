@@ -5,6 +5,7 @@ import com.aurora.model.system.Role;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
 
 /**
@@ -12,6 +13,7 @@ import org.apache.ibatis.annotations.Param;
  * @author PHQ
  * @create 2020-05-03 11:39
  **/
+//@Repository
 @Mapper
 public interface AuthMapper  extends BaseMapper<User> {
     /**

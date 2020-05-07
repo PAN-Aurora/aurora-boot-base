@@ -1,6 +1,7 @@
 package com.aurora.common.util;
 
 import com.alibaba.fastjson.JSON;
+import com.aurora.common.model.Global;
 import com.aurora.model.auth.User;
 import com.aurora.model.system.Role;
 import io.jsonwebtoken.Claims;
@@ -8,6 +9,7 @@ import io.jsonwebtoken.CompressionCodecs;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -30,14 +32,14 @@ public class JwtUtil {
 
     private Map<String, String> tokenMap = new ConcurrentHashMap<>(32);
 
-    @Value("${jwt.secret}")
-    private String secret;
+    //@Value("${jwt.secret}")
+    private String secret = Global.JWT_SECRET;
 
-    @Value("${jwt.expiration}")
-    private Long access_token_expiration;
+   // @Value("${jwt.expiration}")
+    private Long access_token_expiration= Global.JWT_EXPIRATION;
 
-    @Value("${jwt.expiration}")
-    private Long refresh_token_expiration;
+   // @Value("${jwt.expiration}")
+    private Long refresh_token_expiration =Global.JWT_EXPIRATION;
 
     private final SignatureAlgorithm SIGNATURE_ALGORITHM = SignatureAlgorithm.HS256;
 

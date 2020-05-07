@@ -83,7 +83,7 @@ public class LogAspect {
             SystemLog systemLog  =  method.getAnnotation(SystemLog.class);
             if (systemLog != null) {
                 //注解上的描述
-                logger.info("日志记录操作方法:"+systemLog.methods());
+                logger.error("日志记录操作方法:"+systemLog.methods());
                 logger.warn(ex.getMessage());
 
                 SysLog log = new  SysLog();
@@ -96,7 +96,7 @@ public class LogAspect {
                 log.setLogDesc(ex.getMessage());
                 log.setLogMothod(systemLog.methods());
                 log.setLogCreateTime(new Timestamp(System.currentTimeMillis()));
-                log.setLogType(1);
+                log.setLogType(2);
                 sysLogApi.saveLog(log);
             }
 
