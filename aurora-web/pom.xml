@@ -24,11 +24,19 @@
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <!--集成配置业务接口模块-->
+        <!--<dependency>-->
+            <!--<groupId>com.aurora</groupId>-->
+            <!--<artifactId>aurora-service</artifactId>-->
+            <!--<version>1.0.0-SNAPSHOT</version>-->
+        <!--</dependency>-->
+
+        <!--redis接口模块-->
         <dependency>
             <groupId>com.aurora</groupId>
-            <artifactId>aurora-service</artifactId>
+            <artifactId>aurora-redis</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
+
         <!--web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

@@ -6,7 +6,7 @@
            公共模块主要负责封装相关公共的实体 工具类 等相关公共使用的类
 
         aurora-config：
-            公共配置模块 主要所有公共相关的配置 拦截器 自定义主键 aop config配置
+            公共配置模块 主要所有公共相关的配置 拦截器 自定义 aop config配置
 
         aurora-model：
             实体模块：所有实体对象所在模块
@@ -23,7 +23,7 @@
    aurora-common，aurora-config
  依赖关系：
   aurora-base -> aurora-model -> aurora-service -> aurora-web
-              
+
 
 
 (3) 数据库文件脚本：

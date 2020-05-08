@@ -21,9 +21,13 @@
 		<module>aurora-model</module>
 		<!--业务接口DAO模块-->
 		<module>aurora-service</module>
+		<!--redis接口模块-->
+		<module>aurora-redis</module>
 		<!--业务web模块-->
 		<module>aurora-web</module>
-	</modules>
+
+
+    </modules>
 
 	<!--Springboot父版本-->
     <parent>
