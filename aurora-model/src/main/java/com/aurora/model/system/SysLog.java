@@ -4,8 +4,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -18,9 +17,11 @@ import java.sql.Timestamp;
  * @create 2020-05-01 23:18
  **/
 @Data
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("SYS_LOG")
+@Builder
+@AllArgsConstructor //全参构造函数
+@NoArgsConstructor  //无参构造函数
 public class SysLog implements Serializable {
 
       @TableId(value = "LOG_ID", type = IdType.AUTO)

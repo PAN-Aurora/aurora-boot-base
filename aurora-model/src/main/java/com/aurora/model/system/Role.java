@@ -18,10 +18,11 @@ import java.io.Serializable;
  **/
 @Data
 @TableName("SYS_ROLE")
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Builder
-public class Role extends PageModel implements Serializable {
+@AllArgsConstructor //全参构造函数
+@NoArgsConstructor  //无参构造函数
+public class Role extends PageModel {
 
     @TableId(value = "ID", type = IdType.AUTO)
     private int id;

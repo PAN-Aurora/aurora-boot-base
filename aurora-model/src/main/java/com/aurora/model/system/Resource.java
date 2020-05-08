@@ -14,14 +14,13 @@ import java.util.Date;
 /**
  *  资源实体
  */
-@EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Builder
 @Data
 @TableName(value = "SYS_RESOURCE",autoResultMap = true)
 @AllArgsConstructor //全参构造函数
 @NoArgsConstructor  //无参构造函数
-public class Resource extends PageModel implements Serializable {
+public class Resource extends PageModel {
 
     @TableId(value = "ID", type = IdType.AUTO)
     private int id;
