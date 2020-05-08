@@ -96,6 +96,20 @@ public class JwtUtil {
     }
 
     /**
+     * 通过用户名获取token 的用户信息
+     * @param userName
+     * @return
+     */
+    public User getUseFromTokenMap(String userName){
+        if(this.tokenMap.get(userName)!=null){
+           return  this.getUserFromToken(this.tokenMap.get(userName));
+
+        };
+        return null;
+    }
+
+
+    /**
      * 获取token创建时间
      * @param token
      * @return
@@ -221,7 +235,7 @@ public class JwtUtil {
      * @param token
      * @return
      */
-    private Claims getClaimsFromToken(String token) {
+    public Claims getClaimsFromToken(String token) {
         Claims claims;
         try {
             claims = Jwts.parser()

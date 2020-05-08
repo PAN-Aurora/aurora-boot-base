@@ -1,8 +1,15 @@
 package com.aurora.config.aspect;
 
+import com.aurora.common.model.Global;
+import com.aurora.common.util.IpUtils;
+import com.aurora.common.util.JwtUtil;
+import com.aurora.config.annotation.PassJwtToken;
 import com.aurora.config.annotation.SystemLog;
+import com.aurora.model.auth.User;
 import com.aurora.model.system.SysLog;
 import com.aurora.service.api.system.SysLogService;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -14,7 +21,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Method;
 import java.sql.Timestamp;
 
@@ -32,6 +43,10 @@ public class LogAspect {
 
     @Autowired
     private SysLogService sysLogService;
+    private String token_header = Global.JWT_HEADER;
+    private final JwtUtil jwtUtil = new JwtUtil() ;
+
+    private String auth_token = "";
 
     //定义切点 针对类上注解含有SystemLog
     @Pointcut(value = "@annotation(com.aurora.config.annotation.SystemLog)")
@@ -48,14 +63,39 @@ public class LogAspect {
         MethodSignature signature = (MethodSignature)  joinPoint.getSignature();
         Method method = signature.getMethod();
         SystemLog systemLog  =  method.getAnnotation(SystemLog.class);
+        HttpServletRequest  request =   this.getRequest();
         if (systemLog != null) {
-            //注解上的描述
-            logger.info("日志记录操作方法:"+systemLog.methods());
-
             SysLog log = new  SysLog();
-            log.setLogIp("127.0.0.1");
-            log.setLogUser("admin");
-            log.setLogRole("系统管理员");
+            PassJwtToken passJwtToken  =  method.getAnnotation(PassJwtToken.class);
+            if(passJwtToken!=null){
+                HttpServletResponse  response =  this.getResponse();
+                //注解上的描述
+                String userName = request.getParameter("username");
+                log.setLogUser(userName);
+                if(StringUtils.isNotBlank(userName)){
+                    User user =  jwtUtil.getUseFromTokenMap(userName);
+                    log.setLogRole(user.getRole().getName());
+                }
+
+
+
+            }else{
+                auth_token  = request.getHeader(this.token_header);
+                final String auth_token_start =Global.JWT_TOKENHEAD;
+                if (StringUtils.isNotBlank(auth_token) && auth_token.startsWith(auth_token_start)) {
+                    auth_token = auth_token.substring(auth_token_start.length());
+                } else {
+                    // 不按规范,不允许通过验证
+                    auth_token = null;
+                }
+
+                Claims claims = jwtUtil.getClaimsFromToken(auth_token);
+
+
+                log.setLogUser(claims.get("sub").toString());
+                log.setLogRole(claims.get("scope").toString());
+            }
+            log.setLogIp(IpUtils.getIpAddress(request));
             //log注解数据
             log.setLogModule(systemLog.module());
             log.setLogUrl(systemLog.url());
@@ -80,19 +120,32 @@ public class LogAspect {
             Method method = signature.getMethod();
 
             SystemLog systemLog  =  method.getAnnotation(SystemLog.class);
+            HttpServletRequest  request =   this.getRequest();
             if (systemLog != null) {
                 //注解上的描述
                 logger.error("日志记录操作方法:"+systemLog.methods());
-                logger.warn(ex.getMessage());
+                logger.warn("异常信息："+ex);
 
                 SysLog log = new  SysLog();
+                log.setLogIp(IpUtils.getIpAddress(request));
+                auth_token  = request.getHeader(this.token_header);
+                final String auth_token_start =Global.JWT_TOKENHEAD;
+                if (StringUtils.isNotBlank(auth_token) && auth_token.startsWith(auth_token_start)) {
+                    auth_token = auth_token.substring(auth_token_start.length());
+                } else {
+                    // 不按规范,不允许通过验证
+                    auth_token = null;
+                }
+
+                Claims claims = jwtUtil.getClaimsFromToken(auth_token);
+
                 log.setLogIp("127.0.0.1");
-                log.setLogUser("admin");
-                log.setLogRole("系统管理员");
+                log.setLogUser(claims.get("sub").toString());
+                log.setLogRole(claims.get("scope").toString());
                 //log注解数据
                 log.setLogModule(systemLog.module());
                 log.setLogUrl(systemLog.url());
-                log.setLogDesc(ex.getMessage());
+                log.setLogDesc(ex.getMessage().substring(0,ex.getMessage().length()>900?900:ex.getMessage().length()));
                 log.setLogMothod(systemLog.methods());
                 log.setLogCreateTime(new Timestamp(System.currentTimeMillis()));
                 log.setLogType(2);
@@ -100,6 +153,18 @@ public class LogAspect {
             }
 
         }
+    }
+
+    public HttpServletRequest getRequest() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletRequest request = attributes.getRequest();
+        return request;
+    }
+
+    public HttpServletResponse getResponse() {
+        ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
+        HttpServletResponse response = attributes.getResponse();
+        return response;
     }
 
 

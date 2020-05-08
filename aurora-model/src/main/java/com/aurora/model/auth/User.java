@@ -1,5 +1,8 @@
 package com.aurora.model.auth;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.aurora.model.PageModel;
+import com.aurora.model.system.Resource;
 import com.aurora.model.system.Role;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
@@ -26,7 +29,7 @@ import java.util.List;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @TableName("SYS_USER")
-public class User implements UserDetails {
+public class User extends PageModel implements UserDetails  {
 
     @TableId(value = "ID", type = IdType.AUTO)
     private long id;
@@ -39,9 +42,14 @@ public class User implements UserDetails {
 
 
     @TableField(exist = false)
+    @JSONField(serialize = false)
     private Role role;
 
     @TableField(exist = false)
+    private List<Resource> menuList;
+
+    @TableField(exist = false)
+    @JSONField(serialize = false)
     private Date lastPasswordResetDate;
 
     public User() {
@@ -74,7 +82,9 @@ public class User implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(new SimpleGrantedAuthority(role.getName()));
+        if(role!=null){
+            authorities.add(new SimpleGrantedAuthority(role.getName()));
+        }
         return authorities;
     }
 

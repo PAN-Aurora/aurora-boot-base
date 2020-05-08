@@ -143,12 +143,10 @@
 			<optional>true</optional>
 		</dependency>
 
-		<!--jwt token -->
-		<!--<dependency>-->
-			<!--<groupId>com.auth0</groupId>-->
-			<!--<artifactId>java-jwt</artifactId>-->
-			<!--<version>3.4.0</version>-->
-		<!--</dependency>-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+		</dependency>
 
 		<!--springboot test-->
 		<dependency>

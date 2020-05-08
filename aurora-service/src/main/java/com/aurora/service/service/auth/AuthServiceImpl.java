@@ -6,6 +6,7 @@ import com.aurora.model.auth.User;
 import com.aurora.model.system.Role;
 import com.aurora.service.api.auth.AuthService;
 import com.aurora.service.mapper.auth.AuthMapper;
+import com.aurora.service.mapper.system.ResourceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,6 +36,7 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private  AuthMapper authMapper;
+
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
@@ -86,6 +88,7 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
         //生成token
         final User user = (User) authentication.getPrincipal();
+
         final String token = jwtTokenUtil.generateAccessToken(user);
         //存储token
         jwtTokenUtil.putToken(username, token);

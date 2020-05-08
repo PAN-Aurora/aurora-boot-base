@@ -6,6 +6,7 @@ import com.aurora.common.model.ResultModel;
 import com.aurora.common.util.JwtUtil;
 import com.aurora.config.annotation.PassJwtToken;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
@@ -24,7 +25,8 @@ public class JwtTokenInterceptor extends HandlerInterceptorAdapter {
     //@Value("${jwt.header}")
     private String token_header = Global.JWT_HEADER;
 
-    private JwtUtil jwtUtil;
+    //@Autowired
+    private JwtUtil jwtUtil = new JwtUtil() ;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -54,14 +56,16 @@ public class JwtTokenInterceptor extends HandlerInterceptorAdapter {
                 response.setCharacterEncoding("UTF-8");
                 response.setContentType("application/json; charset=utf-8");
                 PrintWriter printWriter = response.getWriter();
-                String body = ResultModel.failure(ResultCode.UNAUTHORIZED).toString();
+                String body = ResultModel.failure(ResultCode.NOT_TOKEN_ERROR).toString();
                 printWriter.write(body);
                 printWriter.flush();
                 return false;
             }else{
-                String username = jwtUtil.getUsernameFromToken(auth_token);
+                 String username = jwtUtil.getUsernameFromToken(auth_token);
                 //假如
                 if(StringUtils.isBlank(username) && SecurityContextHolder.getContext().getAuthentication() == null){
+                    jwtUtil.deleteToken(username);
+
                     response.setStatus(200);
                     response.setCharacterEncoding("UTF-8");
                     response.setContentType("application/json; charset=utf-8");
@@ -70,12 +74,13 @@ public class JwtTokenInterceptor extends HandlerInterceptorAdapter {
                     printWriter.write(body);
                     printWriter.flush();
                     return false;
+                }else{
+                    jwtUtil.refreshToken(auth_token);
                 }
             }
         }else{
             return false;
         }
-
         return super.preHandle(request, response, handler);
     }
 }

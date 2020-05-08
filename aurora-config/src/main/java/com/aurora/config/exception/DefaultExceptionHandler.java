@@ -31,14 +31,25 @@ public class DefaultExceptionHandler {
         logger.error(e.getResultModel().getMessage());
         return e.getResultModel();
     }
+//    /**
+//     * 处理参数校验异常
+//     * @param e
+//     * @return
+//     */
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResultModel handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
+//        log.error(e.getBindingResult().getFieldError().getField() + e.getBindingResult().getFieldError().getDefaultMessage());
+//        return ResultModel.failure(ResultCode.BAD_REQUEST, e.getBindingResult().getFieldError().getDefaultMessage());
+//    }
+
     /**
      * 处理参数校验异常
      * @param e
      * @return
      */
-    @ExceptionHandler(MethodArgumentNotValidException.class)
-    public ResultModel handleMethodArgumentNotValidException(MethodArgumentNotValidException e){
-        log.error(e.getBindingResult().getFieldError().getField() + e.getBindingResult().getFieldError().getDefaultMessage());
-        return ResultModel.failure(ResultCode.BAD_REQUEST, e.getBindingResult().getFieldError().getDefaultMessage());
+    @ExceptionHandler(Exception.class)
+    public ResultModel handleMethodArgumentNotValidException(Exception e){
+        log.error(e.getLocalizedMessage() );
+        return ResultModel.failure(ResultCode.BAD_REQUEST, e.getMessage());
     }
 }

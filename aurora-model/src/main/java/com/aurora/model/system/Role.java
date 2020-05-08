@@ -1,5 +1,6 @@
 package com.aurora.model.system;
 
+import com.aurora.model.PageModel;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -20,7 +21,7 @@ import java.io.Serializable;
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
 @Builder
-public class Role implements Serializable {
+public class Role extends PageModel implements Serializable {
 
     @TableId(value = "ID", type = IdType.AUTO)
     private int id;
