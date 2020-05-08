@@ -28,7 +28,7 @@ import java.util.List;
 @Data
 @EqualsAndHashCode(callSuper = false)
 @Accessors(chain = true)
-@TableName("SYS_USER")
+@TableName(value = "SYS_USER",autoResultMap=true)
 public class User extends PageModel implements UserDetails  {
 
     @TableId(value = "ID", type = IdType.AUTO)

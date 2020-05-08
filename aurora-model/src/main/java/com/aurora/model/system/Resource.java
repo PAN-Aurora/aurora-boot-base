@@ -5,9 +5,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Builder;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
@@ -20,30 +18,32 @@ import java.util.Date;
 @Accessors(chain = true)
 @Builder
 @Data
-@TableName("SYS_RESOURCE")
+@TableName(value = "SYS_RESOURCE",autoResultMap = true)
+@AllArgsConstructor //全参构造函数
+@NoArgsConstructor  //无参构造函数
 public class Resource extends PageModel implements Serializable {
 
     @TableId(value = "ID", type = IdType.AUTO)
     private int id;
 
-    @TableField("pid")
+    @TableField(value = "pid")
     private int pid;
 
-    @TableField("name")
+    @TableField( value = "name")
     private String name;
 
-    @TableField("seq")
+    @TableField( value = "seq")
     private int seq;
 
-    @TableField("status")
-    private int status;
-
-    @TableField("url")
-    private int url;
-
-    @TableField("module")
+    @TableField( value = "module")
     private String module;
 
-    @TableField("createdate")
+    @TableField( value = "url")
+    private String url;
+
+    @TableField( value = "status")
+    private int status;
+
+    @TableField( value = "createdate")
     private Date createdate;
 }

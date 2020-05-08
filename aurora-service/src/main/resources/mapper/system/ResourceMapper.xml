@@ -4,9 +4,10 @@
 <mapper namespace="com.aurora.service.mapper.system.ResourceMapper">
 
     <!--获取菜单集合-->
-    <select id="getResourceList"    resultType="com.aurora.model.system.Resource">
+    <select id="getResourceList"  resultType="com.aurora.model.system.Resource">
         select
          r.id
+        ,r.pid
         ,r.`name`
         ,r.module
         ,r.url
