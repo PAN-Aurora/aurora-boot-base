@@ -15,6 +15,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
         ,"com.aurora.service"
         ,"com.aurora.config"
         ,"com.aurora.common"
+        ,"com.aurora.redis"
       })
 @ServletComponentScan
 @MapperScan("com.aurora.*.mapper")

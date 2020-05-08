@@ -20,6 +20,7 @@ import java.sql.Timestamp;
 @Accessors(chain = true)
 @TableName("SYS_LOG")
 @Builder
+@EqualsAndHashCode(callSuper=false)
 @AllArgsConstructor //全参构造函数
 @NoArgsConstructor  //无参构造函数
 public class SysLog implements Serializable {

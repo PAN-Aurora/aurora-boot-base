@@ -15,6 +15,7 @@ import java.util.Date;
  *  资源实体
  */
 @Accessors(chain = true)
+@EqualsAndHashCode(callSuper=false)
 @Builder
 @Data
 @TableName(value = "SYS_RESOURCE",autoResultMap = true)

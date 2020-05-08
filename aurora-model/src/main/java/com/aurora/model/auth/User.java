@@ -26,6 +26,7 @@ import java.util.List;
  * @create 2020-05-02 20:45
  **/
 @Data
+@EqualsAndHashCode(callSuper=false)
 @Accessors(chain = true)
 @TableName(value = "SYS_USER",autoResultMap=true)
 public class User extends PageModel implements UserDetails  {
