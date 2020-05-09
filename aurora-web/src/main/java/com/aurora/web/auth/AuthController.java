@@ -45,9 +45,9 @@ public class AuthController {
     @PassJwtToken
     @SystemLog(module="用户登录",methods="用户登录",url="/api/auth/login", desc="用户登录")
     @ApiOperation(value = "登录接口",notes = "登录接口需要用户对象",httpMethod = "POST")
-    public ResponseUserToken login(@Valid @RequestBody User user){
+    public ResultModel login(@Valid @RequestBody User user){
 
-        ResponseUserToken response = authService.login(user.getUsername(), user.getPassword());
+        ResultModel response = authService.login(user.getUsername(), user.getPassword());
         return response;
     }
 
@@ -74,7 +74,7 @@ public class AuthController {
             return ResultModel.failure(ResultCode.UNAUTHORIZED);
         }
         User user = authService.getUserByToken(token);
-        return ResultModel.success(ResultCode.SUCCESS, user);
+        return ResultModel.successData(ResultCode.SUCCESS, user);
     }
 
     /**
@@ -90,7 +90,7 @@ public class AuthController {
             return ResultModel.failure(ResultCode.BAD_REQUEST);
         }
         User userDetail = new User(user.getUsername(), user.getPassword(), Role.builder().id(1).build());
-        return ResultModel.success(ResultCode.SUCCESS,authService.register(userDetail));
+        return ResultModel.successData(ResultCode.SUCCESS,authService.register(userDetail));
     }
 
     @GetMapping(value = "refresh")

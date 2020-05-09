@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
-
 /**
  *JedisConfig 配置
+ *   加载项目下 redis.properties
  * @author PHQ
  * @create 2020-05-08 21:53
  **/
@@ -28,7 +28,7 @@ public class JedisConfig {
     @Value("${spring.redis.jedis.pool.max-active}")
     public int maxActive;
     @Value("${spring.redis.jedis.pool.max-wait}")
-    public String maxWait;
+    public long maxWait;
     @Value("${spring.redis.timeout}")
-    public String timeout;
+    public long timeout;
 }

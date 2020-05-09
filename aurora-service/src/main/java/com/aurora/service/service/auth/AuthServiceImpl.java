@@ -1,12 +1,13 @@
 package com.aurora.service.service.auth;
 
+import com.aurora.common.model.ResultCode;
+import com.aurora.common.model.ResultModel;
 import com.aurora.common.util.JwtUtil;
 import com.aurora.model.auth.ResponseUserToken;
 import com.aurora.model.auth.User;
 import com.aurora.model.system.Role;
 import com.aurora.service.api.auth.AuthService;
 import com.aurora.service.mapper.auth.AuthMapper;
-import com.aurora.service.mapper.system.ResourceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,7 +37,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Autowired
     private  AuthMapper authMapper;
-
 
     @Value("${jwt.tokenHead}")
     private String tokenHead;
@@ -81,7 +81,7 @@ public class AuthServiceImpl implements AuthService {
      * @return
      */
     @Override
-    public ResponseUserToken login(String username, String password) {
+    public ResultModel login(String username, String password) {
         //用户验证
         final Authentication authentication = authenticate(username, password);
         //存储认证信息
@@ -92,8 +92,12 @@ public class AuthServiceImpl implements AuthService {
         final String token = jwtTokenUtil.generateAccessToken(user);
         //存储token
         jwtTokenUtil.putToken(username, token);
+
+
         //返回token与用户信息
-        return new ResponseUserToken(token, user);
+        //return new ResponseUserToken(token, user);
+
+        return  ResultModel.successData(ResultCode.SUCCESS, new ResponseUserToken(token, user));
 
     }
 

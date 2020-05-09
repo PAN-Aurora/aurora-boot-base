@@ -71,11 +71,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 
                 .authorizeRequests()
-
                 // 对于获取token的rest api要允许匿名访问
-                .antMatchers("/api/auth/**", "/api/auth/signout", "/error/**", "/api/**").permitAll()
+                .antMatchers("/api/**", "/error/**").permitAll()
 
-                .antMatchers("/springfox*", "/swagger*").permitAll()
                 //过滤post OPTIONS的请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
@@ -85,13 +83,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // 禁用缓存
         httpSecurity.headers().cacheControl();
 
-
-        // 添加JWT filter
-        //httpSecurity.addFilterBefore(authenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 
     @Override
     public void configure(WebSecurity web) throws Exception {
+        //HttpSecurity 的filter  直接过滤，一般用来配置静态资源相关
         web.ignoring().antMatchers("/v2/api-docs",
                 "/swagger-resources/configuration/ui",
                 "/swagger-resources",
@@ -99,13 +95,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/swagger-ui.html",
                 "/springfox*",
                 "/swagger*"
-        )
-        .antMatchers("/api/auth/sign","/api/auth/signout","/api/auth/**"
-
         );
     }
-
-
 
     @Bean
     @Override

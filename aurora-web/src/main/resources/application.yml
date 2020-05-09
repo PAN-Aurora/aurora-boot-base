@@ -41,6 +41,7 @@ spring:
     filters: stat, wall, log4j
     # 合并多个DruidDataSource的监控数据
     useGlobalDataSourceStat: true
+##开启自动部署
   devtools:
     restart:
       enabled: true
@@ -67,21 +68,9 @@ mybatis-plus:
     # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
-# JWT
+## JWT 配置
 jwt:
   header: Authorization
-  secret: auroraWeb
-  #token有效期一天
-  expiration: 86400
+  secret: secret
+  expiration: 7200000
   tokenHead: "Bearer "
-
-## swagger
-#swagger:
-#  title: Aurora-Wed API接口文档
-#  description: Aurora-Wed Api Documentation
-#  version: 1.0.0
-#  termsOfServiceUrl: https://localhost:8081/aurora-web
-#  contact:
-#    name: Aurora-Wed
-#    url: https://localhost:8081/aurora-web
-#    email: pan_2604390947@163.com

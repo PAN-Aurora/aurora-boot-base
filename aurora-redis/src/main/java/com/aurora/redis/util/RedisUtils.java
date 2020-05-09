@@ -11,9 +11,9 @@ import org.springframework.data.redis.core.SetOperations;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Service;
-
 /**
  *  redis工具类
+ *     使用RedisTemplate存储不同类型 redis 数据
  * @author PHQ
  * @create 2020-05-08 22:01
  **/
@@ -22,9 +22,11 @@ public class RedisUtils {
     @Autowired
     private RedisTemplate redisTemplate;
 
+
+
     /**
      * 写入缓存
-     *
+     *   String类型
      * @param key
      * @param value
      * @return
@@ -43,7 +45,7 @@ public class RedisUtils {
 
     /**
      * 写入缓存设置时效时间
-     *
+     * String类型
      * @param key
      * @param value
      * @return
@@ -63,7 +65,7 @@ public class RedisUtils {
 
     /**
      * 批量删除对应的value
-     *
+     * String类型
      * @param keys
      */
     public void remove(final String... keys) {
@@ -74,7 +76,7 @@ public class RedisUtils {
 
     /**
      * 批量删除key
-     *
+     * String类型
      * @param pattern
      */
     public void removePattern(final String pattern) {
@@ -86,7 +88,7 @@ public class RedisUtils {
 
     /**
      * 删除对应的value
-     *
+     * String类型
      * @param key
      */
     public void remove(final String key) {
@@ -97,7 +99,7 @@ public class RedisUtils {
 
     /**
      * 判断缓存中是否有对应的value
-     *
+     * String类型
      * @param key
      * @return
      */
@@ -107,7 +109,7 @@ public class RedisUtils {
 
     /**
      * 读取缓存
-     *
+     * String类型
      * @param key
      * @return
      */
@@ -142,6 +144,7 @@ public class RedisUtils {
         return hash.get(key, hashKey);
     }
 
+
     /**
      * 列表添加
      *
@@ -168,7 +171,7 @@ public class RedisUtils {
 
     /**
      * 集合添加
-     *
+     * set 类型
      * @param key
      * @param value
      */
@@ -179,7 +182,7 @@ public class RedisUtils {
 
     /**
      * 集合获取
-     *
+     * s et 类型
      * @param key
      * @return
      */
@@ -190,12 +193,12 @@ public class RedisUtils {
 
     /**
      * 有序集合添加
-     *
+     *  sorted set
      * @param key
      * @param value
      * @param scoure
      */
-    public void zAdd(String key, Object value, double scoure) {
+    public void zSetAdd(String key, Object value, double scoure) {
         ZSetOperations<String, Object> zset = redisTemplate.opsForZSet();
         zset.add(key, value, scoure);
     }

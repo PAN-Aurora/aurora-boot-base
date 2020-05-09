@@ -1,5 +1,6 @@
 package com.aurora.service.api.auth;
 
+import com.aurora.common.model.ResultModel;
 import com.aurora.model.auth.ResponseUserToken;
 import com.aurora.model.auth.User;
 
@@ -23,7 +24,7 @@ public interface AuthService {
      * @param password
      * @return
      */
-    ResponseUserToken login(String username, String password);
+    ResultModel login(String username, String password);
 
     /**
      * 登出

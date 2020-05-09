@@ -6,17 +6,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 /**
- *
- * @author 项目启动类
+ * 项目启动类
+ * @author  PHQ
  * @create 2020-04-28 22:32
  **/
-@SpringBootApplication(scanBasePackages = {
-         "com.aurora.web"
-        ,"com.aurora.service"
-        ,"com.aurora.config"
-        ,"com.aurora.common"
-        ,"com.aurora.redis"
-      })
+@SpringBootApplication(scanBasePackages = {"com.aurora.*"})
 @ServletComponentScan
 @MapperScan("com.aurora.*.mapper")
 public class SpringbootWebStart {
