@@ -50,7 +50,6 @@ public class JwtTokenInterceptor extends HandlerInterceptorAdapter {
         }
 
         if(StringUtils.isNotBlank(this.token_header)){
-            logger.info("##########获取头部token###########");
             //token header
             String auth_token = request.getHeader(this.token_header);
             final String auth_token_start = this.jwt_tokenHead;
@@ -66,7 +65,6 @@ public class JwtTokenInterceptor extends HandlerInterceptorAdapter {
                 this.writerResponse(response,ResultCode.NOT_TOKEN_ERROR);
                 return false;
             }else{
-                logger.info("##########通过头部token获取用户信息###########");
                  String username = jwtUtil.getUsernameFromToken(auth_token);
                 //假如token过期或者找不到
                 if(StringUtils.isBlank(username)){
