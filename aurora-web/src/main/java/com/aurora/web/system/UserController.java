@@ -33,8 +33,8 @@ public class UserController {
      * @return
      */
     @GetMapping(value = "/getUserList")
-    @SystemLog(module="用户列表",methods="getUserList",url="/api/user/getUserList", desc="获取用户分页列表数据")
-    @ApiOperation(value = "用户列表",notes = "获取用户分页列表数据",httpMethod = "GET")
+    @SystemLog(module="用户管理模块",methods="获取用户列表",url="/api/user/getUserList", desc="获取用户分页列表数据")
+    @ApiOperation(value = "获取用户列表",notes = "获取用户分页列表数据",httpMethod = "GET")
     public ResultModel getUserList(User user){
         return userService.getUserList(user);
     }

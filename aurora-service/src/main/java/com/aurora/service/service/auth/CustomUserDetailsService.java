@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 /**
- * 登录权限校验的service
+ * 登录权限校验 默认 security 自动调用
  * @author PHQ
  * @create 2020-05-03 11:37
  **/

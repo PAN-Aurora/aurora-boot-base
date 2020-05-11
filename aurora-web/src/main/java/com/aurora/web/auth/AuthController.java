@@ -43,7 +43,7 @@ public class AuthController {
      */
     @PostMapping(value = "/login")
     @PassJwtToken
-    @SystemLog(module="用户登录",methods="用户登录",url="/api/auth/login", desc="用户登录")
+    @SystemLog(module="用户权限模块",methods="用户登录",url="/api/auth/login", desc="用户登录")
     @ApiOperation(value = "登录接口",notes = "登录接口需要用户对象",httpMethod = "POST")
     public ResultModel login(@Valid @RequestBody User user){
 
@@ -58,6 +58,7 @@ public class AuthController {
      */
     @GetMapping(value = "/logout")
     @PassJwtToken
+    @SystemLog(module="用户权限模块",methods="退出登录",url="/api/auth/logout", desc="退出登录")
     public ResultModel logout(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         if (token == null) {
@@ -68,6 +69,7 @@ public class AuthController {
     }
 
     @GetMapping(value = "/user")
+    @SystemLog(module="用户权限模块",methods="查询用户",url="/api/auth/user", desc="查询用户信息")
     public ResultModel getUser(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         if (token == null) {
@@ -84,7 +86,6 @@ public class AuthController {
      */
     @PostMapping(value = "/sign")
     @SystemLog(module="用户权限模块",methods="用户注册",url="/api/v1/sign", desc="用户注册")
-    @PassJwtToken
     public ResultModel sign(@RequestBody User user) {
         if (StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())) {
             return ResultModel.failure(ResultCode.BAD_REQUEST);
@@ -94,6 +95,7 @@ public class AuthController {
     }
 
     @GetMapping(value = "refresh")
+    @SystemLog(module="用户权限模块",methods="刷新token",url="/api/auth/refresh", desc="刷新token")
     @ApiOperation(value = "刷新token")
     public ResultModel refreshAndGetAuthenticationToken(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);

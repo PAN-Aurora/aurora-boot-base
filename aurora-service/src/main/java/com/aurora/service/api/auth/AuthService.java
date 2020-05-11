@@ -45,4 +45,11 @@ public interface AuthService {
      * @return
      */
     User getUserByToken(String token);
+
+    /**
+     * 获取用户详情信息
+     * @param userLogin
+     * @return
+     */
+    public User getUserInfo(User userLogin);
 }

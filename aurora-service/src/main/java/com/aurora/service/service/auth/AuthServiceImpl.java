@@ -5,9 +5,11 @@ import com.aurora.common.model.ResultModel;
 import com.aurora.common.util.JwtUtil;
 import com.aurora.model.auth.ResponseUserToken;
 import com.aurora.model.auth.User;
+import com.aurora.model.system.Resource;
 import com.aurora.model.system.Role;
 import com.aurora.service.api.auth.AuthService;
 import com.aurora.service.mapper.auth.AuthMapper;
+import com.aurora.service.mapper.system.ResourceMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
@@ -18,10 +20,12 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.sql.Date;
+import java.util.List;
 
 /**
  * 权限登录接口实现
@@ -34,6 +38,9 @@ public class AuthServiceImpl implements AuthService {
     private final AuthenticationManager authenticationManager;
     private final UserDetailsService userDetailsService;
     private final JwtUtil jwtTokenUtil = new JwtUtil();
+
+    @Autowired
+    private  ResourceMapper resourceMapper;
 
     @Autowired
     private  AuthMapper authMapper;
@@ -92,11 +99,8 @@ public class AuthServiceImpl implements AuthService {
         final String token = jwtTokenUtil.generateAccessToken(user);
         //存储token
         jwtTokenUtil.putToken(username, token);
-
-
         //返回token与用户信息
         //return new ResponseUserToken(token, user);
-
         return  ResultModel.successData(ResultCode.SUCCESS, new ResponseUserToken(token, user));
 
     }
@@ -126,10 +130,38 @@ public class AuthServiceImpl implements AuthService {
         return jwtTokenUtil.getUserFromToken(token);
     }
 
+    /**
+     * 获取用户详情信息
+     * @param userLogin
+     * @return
+     */
+    public User getUserInfo(User userLogin){
+        //查询登录的用户
+        User user = authMapper.findByUsername(userLogin);
+
+        if(user!=null){
+            //查询用户登录角色
+            Role role = authMapper.findRoleByUserId(user);
+            user.setRole(role);
+
+            if(role!= null){
+                //根据角色查询角色资源
+                List<Resource> menuList =   resourceMapper.getResourceList(role.getId());
+                user.setMenuList(menuList);
+            }
+
+        }
+
+
+
+        return user;
+    }
+
     private Authentication authenticate(String username, String password) {
         try {
             //该方法会去调用userDetailsService.loadUserByUsername()去验证用户名和密码，如果正确，则存储该用户名密码到“security 的 context中”
             return authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+
         } catch (DisabledException | BadCredentialsException e) {
             throw e;
           //  throw new CustomException(ResultModel.failure(ResultCode.LOGIN_ERROR, e.getMessage()));

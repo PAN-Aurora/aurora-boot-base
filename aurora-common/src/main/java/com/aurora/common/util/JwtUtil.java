@@ -13,6 +13,7 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -22,13 +23,13 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author PHQ
  * @create 2020-05-02 20:42
  **/
-@Component("JwtUtil")
+@Service
 public class JwtUtil {
 
     public static final String ROLE_REFRESH_TOKEN = "ROLE_REFRESH_TOKEN";
     private static final String CLAIM_KEY_USER_ID = "user_id";
     private static final String CLAIM_KEY_AUTHORITIES = "scope";
-    //用来存token
+    //用来存token 后续换redis
     private Map<String, String> tokenMap = new ConcurrentHashMap<>(32);
 
     //@Value("${jwt.secret}")

@@ -1,11 +1,4 @@
 package com.aurora.common.util;
-
-/**
- * todo..
- *
- * @author :PHQ
- * @date：2020/5/8
- **/
 import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
@@ -13,7 +6,9 @@ import java.net.*;
 import java.util.Enumeration;
 
 /**
- * 访问ip
+ * 访问ip获取
+ * @author :PHQ
+ * @date：2020/5/8
  */
 @Slf4j
 public class IpUtils {
