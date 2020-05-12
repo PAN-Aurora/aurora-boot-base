@@ -43,6 +43,27 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
 
+        <!-- 模板 velocity -->
+        <dependency>
+            <groupId>org.apache.velocity</groupId>
+            <artifactId>velocity</artifactId>
+            <version>1.7</version>
+        </dependency>
+
+        <!-- java工具类 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>4.5.18</version>
+        </dependency>
+
+        <!-- mybatis扩展插件包mybatis-plus -->
+        <!--<dependency>-->
+            <!--<groupId>com.baomidou</groupId>-->
+            <!--<artifactId>mybatis-plus</artifactId>-->
+            <!--<version>2.3</version>-->
+        <!--</dependency>-->
+
         <!--热部署-->
         <dependency>
             <groupId>org.springframework.boot</groupId>

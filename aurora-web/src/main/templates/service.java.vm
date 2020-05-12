@@ -1,0 +1,16 @@
+package ${package.Service};
+
+import ${package.Entity}.${entity};
+import ${package.Mapper}.${table.mapperName};
+import org.springframework.stereotype.Service;
+
+/**
+ *
+ * @ClassName: ${entity}Service
+ * @Description: TODO
+ * @author ${author}
+ * @date ${date}
+ */
+public class ${entity}Service  {
+
+}
