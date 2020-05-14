@@ -77,6 +77,13 @@ public class ResultModel <T>  implements Serializable {
     }
 
     /**
+     * 成功  默认返回不带参数
+     * @return
+     */
+    public static  ResultModel success(int code,String msg){
+        return new ResultModel(code,msg) ;
+    }
+    /**
      * 成功  并携带数据（针对单个对象或者集合 不带分页）
      * @param resultCode
      * @param data

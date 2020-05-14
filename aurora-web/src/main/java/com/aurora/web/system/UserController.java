@@ -2,6 +2,7 @@ package com.aurora.web.system;
 
 import com.aurora.common.model.ResultCode;
 import com.aurora.common.model.ResultModel;
+import com.aurora.config.annotation.GuavaRateLimiter;
 import com.aurora.config.annotation.PassJwtToken;
 import com.aurora.config.annotation.SystemLog;
 import com.aurora.model.auth.User;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 用户管理
@@ -35,6 +37,7 @@ public class UserController {
     @GetMapping(value = "/getUserList")
     @SystemLog(module="用户管理模块",methods="获取用户列表",url="/api/user/getUserList", desc="获取用户分页列表数据")
     @ApiOperation(value = "获取用户列表",notes = "获取用户分页列表数据",httpMethod = "GET")
+    @GuavaRateLimiter(permitsPerSecond = 1, timeout = 100, timeunit = TimeUnit.MILLISECONDS, msg = "现在访问人数过多,请稍后再试.")
     public ResultModel getUserList(User user){
         return userService.getUserList(user);
     }

@@ -1,6 +1,7 @@
 package com.aurora.config.interceptor;
 
 import com.aurora.common.model.Global;
+import com.aurora.common.model.ResponseModel;
 import com.aurora.common.model.ResultCode;
 import com.aurora.common.model.ResultModel;
 import com.aurora.common.util.JwtUtil;
@@ -59,16 +60,17 @@ public class JwtTokenInterceptor extends HandlerInterceptorAdapter {
                 // 不按规范,不允许通过验证
                 auth_token = null;
             }
+            logger.info("token："+auth_token);
             //假如不存在token
             if(StringUtils.isBlank(auth_token)){
 
-                this.writerResponse(response,ResultCode.NOT_TOKEN_ERROR);
+                ResponseModel.responseResult(response,ResultCode.NOT_TOKEN_ERROR);
                 return false;
             }else{
                  String username = jwtUtil.getUsernameFromToken(auth_token);
                 //假如token过期或者找不到
                 if(StringUtils.isBlank(username)){
-                    this.writerResponse(response,ResultCode.TOKEN_ERROR);
+                    ResponseModel.responseResult(response, ResultCode.TOKEN_ERROR);
                     return false;
                 }else{
                     jwtUtil.refreshToken(auth_token);
@@ -80,19 +82,4 @@ public class JwtTokenInterceptor extends HandlerInterceptorAdapter {
         return super.preHandle(request, response, handler);
     }
 
-    /**
-     * 往浏览器输出
-     * @param response
-     * @param resultCode
-     * @throws Exception
-     */
-    private void  writerResponse( HttpServletResponse response,ResultCode  resultCode) throws Exception{
-        response.setStatus(200);
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json; charset=utf-8");
-        PrintWriter printWriter = response.getWriter();
-        String body = ResultModel.failure(resultCode).toString();
-        printWriter.write(body);
-        printWriter.flush();
-    }
 }
