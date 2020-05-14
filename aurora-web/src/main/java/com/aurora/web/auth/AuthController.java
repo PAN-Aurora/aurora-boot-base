@@ -2,6 +2,7 @@ package com.aurora.web.auth;
 
 import com.aurora.common.model.ResultCode;
 import com.aurora.common.model.ResultModel;
+import com.aurora.config.annotation.GuavaRateLimiter;
 import com.aurora.config.annotation.PassJwtToken;
 import com.aurora.config.annotation.SystemLog;
 import com.aurora.model.auth.ResponseUserToken;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 登录控制类
@@ -45,6 +47,7 @@ public class AuthController {
     @PassJwtToken
     @SystemLog(module="用户权限模块",methods="用户登录",url="/api/auth/login", desc="用户登录")
     @ApiOperation(value = "登录接口",notes = "登录接口需要用户对象",httpMethod = "POST")
+    @GuavaRateLimiter(permitsPerSecond = 1, timeout = 100, timeunit = TimeUnit.MILLISECONDS, msg = "现在访问人数过多,请稍后再试.")
     public ResultModel login(@Valid @RequestBody User user){
 
         ResultModel response = authService.login(user.getUsername(), user.getPassword());

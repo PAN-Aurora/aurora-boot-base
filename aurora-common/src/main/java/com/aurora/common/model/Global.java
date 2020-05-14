@@ -12,4 +12,7 @@ public class Global {
         public final  static  long    JWT_EXPIRATION =86400;
         public final  static  String  JWT_TOKENHEAD ="Bearer ";
 
+        //默认
+        public final  static  long  REDIS_LIMITER_SECONDE = 6000;
+        public final  static  int  REDIS_LIMITER_MAXCOUNT = 10; //100次请求
 }

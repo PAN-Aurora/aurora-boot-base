@@ -13,11 +13,11 @@ import java.util.concurrent.TimeUnit;
 @Documented
 public @interface GuavaRateLimiter {
 
-    //以固定数值往令牌桶添加令牌
-    double permitsPerSecond () ;
+    //以固定数值往令牌桶添加令牌 1
+    double permitsPerSecond () default 1;
 
-    //获取令牌最大等待时间
-    long timeout();
+    //获取令牌最大等待时间 1000 毫秒
+    long timeout() default 1000;
 
     // 单位(例:分钟/秒/毫秒) 默认:毫秒
     TimeUnit timeunit() default TimeUnit.MILLISECONDS;

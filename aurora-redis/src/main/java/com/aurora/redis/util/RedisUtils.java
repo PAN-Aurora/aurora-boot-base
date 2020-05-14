@@ -42,6 +42,13 @@ public class RedisUtils {
         }
         return result;
     }
+    public long  increment(final String key){
+        if(exists(key)){
+            return redisTemplate.opsForValue().increment(key,1);
+        }else{
+            return 0L;
+        }
+    }
 
     /**
      * 写入缓存设置时效时间
@@ -95,6 +102,21 @@ public class RedisUtils {
         if (exists(key)) {
             redisTemplate.delete(key);
         }
+    }
+
+    /**
+     * 获取key的合计数
+     * @param key    具体key前缀 或者key值
+     * @param pattern  表达式 *
+     * @return
+     */
+    public int getKeyCount(String key,String pattern){
+        if(pattern!=null){
+            return redisTemplate.keys(key+pattern).size();
+        }else{
+            return redisTemplate.keys(key).size();
+        }
+
     }
 
     /**

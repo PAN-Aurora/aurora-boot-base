@@ -51,6 +51,7 @@ public class RateLimiterAspect {
         // 获取request,response
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+
         // 获取请求url(存在map集合的key)
         String url = request.getRequestURI();
         // 获取自定义注解
