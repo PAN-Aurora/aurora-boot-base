@@ -22,7 +22,6 @@ public class TestController {
 
     private final static Logger logger = LoggerFactory.getLogger(TestController.class);
 
-
     @Autowired
     private TestService testService;
 

@@ -1,6 +1,5 @@
 package com.aurora.model.system;
 
-import com.aurora.model.PageModel;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -8,40 +7,26 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.*;
 import lombok.experimental.Accessors;
 
-import java.io.Serializable;
-import java.util.List;
-
 /**
- *
- * 角色实体类
- * @author PHQ
- * @create 2020-05-01 16:09
+ * 角色资源表映射
+ * @create 2020-05-14 22:25
  **/
 @Data
-@TableName("SYS_ROLE")
+@TableName("SYS_ROLE_RESOURCE")
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper=false)
 @Builder
 @AllArgsConstructor //全参构造函数
 @NoArgsConstructor  //无参构造函数
-public class Role extends PageModel {
+public class RoleResource {
+
 
     @TableId(value = "ID", type = IdType.AUTO)
     private int id;
 
-    @TableField("name")
-    private String name;
+    @TableField("role_id")
+    private int roleId;
 
-    @TableField("seq")
-    private int seq;
-
-//    @TableField("description")
-//    private String description;
-
-    @TableField("status")
-    private int status;
-
-    @TableField(exist = false)
-    private List<Resource> rosourceList;
-
+    @TableField("resource_id")
+    private int resourceId;
 }

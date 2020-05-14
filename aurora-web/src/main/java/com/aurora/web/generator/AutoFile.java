@@ -22,7 +22,7 @@ public class AutoFile {
             AutoGenerator mpg = new AutoGenerator();
 // 全局配置
             GlobalConfig gc = new GlobalConfig();
-            gc.setOutputDir("D://");//代码生成存放位置D:\aurora-base\aurora-model\src\main\java\com\aurora\model
+            gc.setOutputDir("H://");//代码生成存放位置D:\aurora-base\aurora-model\src\main\java\com\aurora\model
             gc.setFileOverride(true);
             gc.setActiveRecord(false);
             gc.setEnableCache(false);// XML 二级缓存
@@ -71,7 +71,7 @@ return super.processTypeConvert(fieldType);
  *
  * 2017.11.2
  */
-            strategy.setInclude(new String[] { "sys_user" }); // 需要生成的表
+            strategy.setInclude(new String[] { "sys_role" }); // 需要生成的表
 /**
  * 第二步
  * 去掉表名前缀
