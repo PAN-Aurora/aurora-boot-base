@@ -77,6 +77,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //过滤post OPTIONS的请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
 
+
+
+
                 // 除上面外的所有请求全部需要鉴权认证
                 .anyRequest().authenticated();
 
@@ -88,14 +91,20 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         //HttpSecurity 的filter  直接过滤，一般用来配置静态资源相关
-        web.ignoring().antMatchers("/v2/api-docs",
-                "/swagger-resources/configuration/ui",
-                "/swagger-resources",
-                "/swagger-resources/configuration/security",
-                "/swagger-ui.html",
-                "/springfox*",
-                "/swagger*"
-        );
+        web.ignoring()
+                .antMatchers("/swagger-ui.html")
+
+                .antMatchers("/swagger-resources/**")
+
+                .antMatchers("/images/**")
+
+                .antMatchers("/webjars/**")
+
+                .antMatchers("/v2/api-docs")
+
+                .antMatchers("/configuration/ui")
+
+                .antMatchers("/configuration/security");
     }
 
     @Bean

@@ -34,9 +34,9 @@ public class UserServiceImpl implements UserService{
         Page<User> page = new Page<>(user.getCurrent(), user.getLimit());
         QueryWrapper<User> queryWrapper = new QueryWrapper<>();
         //查询参数
-//        if(StringUtils.isNotBlank(user.getUsername())){
-//            queryWrapper.eq("username",user.getUsername());
-//        }
+        if(StringUtils.isNotBlank(user.getUsername())){
+            queryWrapper.eq("username",user.getUsername());
+        }
         IPage<User> userIPage =  authMapper.selectPage(page,queryWrapper);
 
         logger.info(userIPage.getTotal()+"");

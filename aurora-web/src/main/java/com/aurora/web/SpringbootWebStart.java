@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
 /**
  * 项目启动类
  * @author  PHQ
@@ -13,6 +15,7 @@ import org.springframework.boot.web.servlet.ServletComponentScan;
 @SpringBootApplication(scanBasePackages = {"com.aurora.*"})
 @ServletComponentScan
 @MapperScan("com.aurora.*.mapper")
+@EnableSwagger2
 public class SpringbootWebStart {
     private static final Logger logger = LoggerFactory.getLogger(SpringbootWebStart.class);
     public static void main(String[] args) {

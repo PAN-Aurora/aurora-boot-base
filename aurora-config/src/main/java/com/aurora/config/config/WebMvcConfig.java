@@ -6,6 +6,7 @@ import com.aurora.redis.util.RedisUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * webmvc 配置
@@ -25,8 +26,21 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         //针对所有进行token校验拦截
-        registry.addInterceptor(new JwtTokenInterceptor()).addPathPatterns("/**");
+        registry.addInterceptor(new JwtTokenInterceptor()).addPathPatterns("/**")
+        .excludePathPatterns("/error")
+        .excludePathPatterns("/static/**")
+        .excludePathPatterns("/swagger-ui.html")
+        .excludePathPatterns("/swagger-resources/**")
+        .excludePathPatterns("/images/**")
+        .excludePathPatterns("/webjars/**")
+        .excludePathPatterns("/v2/api-docs")
+        .excludePathPatterns("/configuration/ui")
+        .excludePathPatterns("/login");
         //进行api限流拦截
         registry.addInterceptor(new RequestInterceptor(redisUtils)).addPathPatterns("/**");
+    }
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
     }
 }

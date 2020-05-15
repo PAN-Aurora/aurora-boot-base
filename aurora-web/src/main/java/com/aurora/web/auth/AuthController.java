@@ -10,6 +10,7 @@ import com.aurora.model.auth.User;
 import com.aurora.model.system.Role;
 import com.aurora.service.api.auth.AuthService;
 import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,8 +47,11 @@ public class AuthController {
     @PostMapping(value = "/login")
     @PassJwtToken
     @SystemLog(module="用户权限模块",methods="用户登录",url="/api/auth/login", desc="用户登录")
-    @ApiOperation(value = "登录接口",notes = "登录接口需要用户对象",httpMethod = "POST")
     @GuavaRateLimiter(permitsPerSecond = 1, timeout = 100, timeunit = TimeUnit.MILLISECONDS, msg = "现在访问人数过多,请稍后再试.")
+    @ApiOperation(value="登录接口", notes="通过用户名密码登录 ",httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true, dataType = "User")
+    })
     public ResultModel login(@Valid @RequestBody User user){
 
         ResultModel response = authService.login(user.getUsername(), user.getPassword());
@@ -62,6 +66,10 @@ public class AuthController {
     @GetMapping(value = "/logout")
     @PassJwtToken
     @SystemLog(module="用户权限模块",methods="退出登录",url="/api/auth/logout", desc="退出登录")
+    @ApiOperation(value="退出登录", notes="通过接口注销登录，清除token ",httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "request", value = "HttpServletRequest对象需要携带token", required = true, dataType = "HttpServletRequest")
+    })
     public ResultModel logout(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         if (token == null) {
@@ -73,6 +81,10 @@ public class AuthController {
 
     @GetMapping(value = "/user")
     @SystemLog(module="用户权限模块",methods="查询用户",url="/api/auth/user", desc="查询用户信息")
+    @ApiOperation(value="查询用户", notes="通过接口查询用户 ",httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "request", value = "HttpServletRequest对象需要携带token", required = true, dataType = "HttpServletRequest")
+    })
     public ResultModel getUser(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         if (token == null) {
@@ -88,7 +100,11 @@ public class AuthController {
      * @return
      */
     @PostMapping(value = "/sign")
-    @SystemLog(module="用户权限模块",methods="用户注册",url="/api/v1/sign", desc="用户注册")
+    @SystemLog(module="用户权限模块",methods="用户注册",url="/api/auth/sign", desc="用户注册")
+    @ApiOperation(value="用户注册", notes="通过接口用户注册 ",httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true, dataType = "com.aurora.model.auth.User")
+    })
     public ResultModel sign(@RequestBody User user) {
         if (StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())) {
             return ResultModel.failure(ResultCode.BAD_REQUEST);
@@ -99,7 +115,10 @@ public class AuthController {
 
     @GetMapping(value = "refresh")
     @SystemLog(module="用户权限模块",methods="刷新token",url="/api/auth/refresh", desc="刷新token")
-    @ApiOperation(value = "刷新token")
+    @ApiOperation(value="刷新token", notes="通过接口刷新token ",httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "request", value = "HttpServletRequest对象需要携带token", required = true, dataType = "HttpServletRequest")
+    })
     public ResultModel refreshAndGetAuthenticationToken(HttpServletRequest request){
         String token = request.getHeader(tokenHeader);
         ResponseUserToken response = authService.refresh(token);

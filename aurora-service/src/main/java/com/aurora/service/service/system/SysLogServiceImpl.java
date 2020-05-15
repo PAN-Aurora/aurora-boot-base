@@ -24,8 +24,7 @@ public class SysLogServiceImpl implements SysLogService {
      * @return
      */
     public int saveLog(SysLog sysLog){
-        int result =  sysLogMapper.insert(sysLog);
-        return result;
+        return sysLogMapper.insert(sysLog);
     }
 
 }

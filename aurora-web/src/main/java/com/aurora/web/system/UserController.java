@@ -7,6 +7,8 @@ import com.aurora.config.annotation.PassJwtToken;
 import com.aurora.config.annotation.SystemLog;
 import com.aurora.model.auth.User;
 import com.aurora.service.api.system.UserService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,6 +39,9 @@ public class UserController {
     @GetMapping(value = "/getUserList")
     @SystemLog(module="用户管理模块",methods="获取用户列表",url="/api/user/getUserList", desc="获取用户分页列表数据")
     @ApiOperation(value = "获取用户列表",notes = "获取用户分页列表数据",httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user", value = "用户实体对象，查询用户列表", required = true, dataType = "com.aurora.model.auth.User")
+    })
     public ResultModel getUserList(User user){
         return userService.getUserList(user);
     }

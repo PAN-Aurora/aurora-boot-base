@@ -67,6 +67,16 @@ public class RoleServiceImpl implements RoleService {
 
     }
 
+    public  Integer   getRoleCount(Role role){
+        QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
+        //查询参数
+        if(StringUtils.isNotBlank(role.getName())){
+            queryWrapper.eq("name",role.getName());
+            return  roleMapper.selectCount(queryWrapper);
+        }
+        return  0;
+    }
+
     /**
      * 增加角色
      * @param role
@@ -74,6 +84,16 @@ public class RoleServiceImpl implements RoleService {
      */
     @Transactional(rollbackFor = Exception.class)
     public ResultModel  insertRole(Role role){
+
+        QueryWrapper<Role> queryWrapper = new QueryWrapper<>();
+        //查询参数
+        if(StringUtils.isNotBlank(role.getName())){
+            queryWrapper.eq("name",role.getName());
+
+        }
+         if(roleMapper.selectCount(queryWrapper)  > 0){
+             return ResultModel.success(ResultCode.BAD_PARAMS.getCode(),"角色名称重复！");
+         }
           //保存角色信息
           roleMapper.insertRole(role);
           //先删除角色对应映射关系

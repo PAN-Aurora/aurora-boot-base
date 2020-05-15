@@ -4,6 +4,8 @@ import com.aurora.common.model.ResultModel;
 import com.aurora.config.annotation.SystemLog;
 import com.aurora.model.system.Resource;
 import com.aurora.service.api.system.ResourceService;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,6 +33,9 @@ public class ResourceController {
     @GetMapping(value = "/getResourceList")
     @SystemLog(module="资源管理模块",methods="获取资源集合",url="/api/resource/getResourceList", desc="获取资源集合")
     @ApiOperation(value = "获取资源集合",notes = "获取资源集合分页列表数据",httpMethod = "GET")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "resource", value = "资源实体对象 resource", required = true, dataType = "com.aurora.model.auth.Resource")
+    })
     public ResultModel getResourceList(Resource resource){
         return resourceService.getResourceList(resource);
     }

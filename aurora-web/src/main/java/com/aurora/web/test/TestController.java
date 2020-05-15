@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- *
+ *http://localhost:8081/aurora-web/swagger-ui.html
  * @author PHQ
  * @create 2020-04-28 23:13
  **/
