@@ -16,5 +16,6 @@ import java.util.List;
 @Repository
 public interface ResourceMapper extends BaseMapper<Resource> {
 
-    public List<Resource> getResourceList(@Param("roleId") long roleId);
+    public List<Resource> getResourceListByRoleId(@Param("roleId") long roleId);
+
 }

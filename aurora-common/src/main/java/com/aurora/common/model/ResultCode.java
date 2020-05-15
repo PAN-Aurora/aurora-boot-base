@@ -10,6 +10,7 @@ public enum ResultCode {
     SUCCESS(200, "成功"),
     BAD_REQUEST(400, "请求失败"),
     UNAUTHORIZED(401, "认证失败"),
+    BAD_PARAMS(402, "参数不合法"),
     LOGIN_ERROR(401, "登陆失败，用户名或密码无效"),
     FORBIDDEN(403, "禁止访问"),
     NOT_FOUND(404, "请求的资源不存在"),

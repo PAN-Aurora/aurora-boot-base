@@ -35,13 +35,16 @@ public class Role extends PageModel {
     @TableField("seq")
     private int seq;
 
-//    @TableField("description")
-//    private String description;
+    @TableField("description")
+    private String description;
 
     @TableField("status")
     private int status;
 
     @TableField(exist = false)
     private List<Resource> rosourceList;
+
+    @TableField(exist = false)
+    public int[] ids;
 
 }

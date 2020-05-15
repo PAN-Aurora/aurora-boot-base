@@ -1,9 +1,11 @@
 package com.aurora.service.service.system;
 
 import com.alibaba.fastjson.JSON;
+import com.aurora.common.model.ResultCode;
 import com.aurora.common.model.ResultModel;
 import com.aurora.model.system.Resource;
 import com.aurora.model.system.Role;
+import com.aurora.model.system.RoleResource;
 import com.aurora.service.api.system.RoleService;
 import com.aurora.service.mapper.system.ResourceMapper;
 import com.aurora.service.mapper.system.RoleMapper;
@@ -15,7 +17,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -53,7 +57,7 @@ public class RoleServiceImpl implements RoleService {
 
         //遍历角色获取菜单资源
         roleList.forEach(role -> {
-            List<Resource> resourceList = resourceMapper.getResourceList(role.getId());
+            List<Resource> resourceList = resourceMapper.getResourceListByRoleId(role.getId());
             role.setRosourceList(resourceList);
         });
 
@@ -61,5 +65,82 @@ public class RoleServiceImpl implements RoleService {
         logger.info(JSON.toJSONString(roleList));
         return ResultModel.successPage(roleList,userIPage.getTotal());
 
+    }
+
+    /**
+     * 增加角色
+     * @param role
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    public ResultModel  insertRole(Role role){
+          //保存角色信息
+          roleMapper.insertRole(role);
+          //先删除角色对应映射关系
+           roleMapper.deleteRoleResuorceById(role.getId());
+          //增加资源和角色映射
+           if(role.getRosourceList()!=null && role.getRosourceList().size()>0){
+               List<Resource>  rosourceList =  role.getRosourceList();
+
+               List<RoleResource> roleResourceList = new ArrayList<RoleResource>();
+               rosourceList.forEach(resource -> {
+                   roleResourceList.add(RoleResource.builder()
+                           .roleId(role.getId())
+                           .resourceId(resource.getId())
+                           .resourceModule(resource.getModule()).build());
+               });
+               //保存角色资源映射
+               roleMapper.insertBatchRoleResuorce(roleResourceList);
+           }
+          return ResultModel.success(ResultCode.SUCCESS.getCode(),"保存角色成功！");
+    }
+
+    /**
+     * 更新角色
+     * @param role
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public ResultModel updateRole(Role role) {
+        //更新角色
+        roleMapper.updateById(role);
+        //先删除角色对应映射关系
+        roleMapper.deleteRoleResuorceById(role.getId());
+        if(role.getRosourceList()!=null && role.getRosourceList().size()>0){
+            List<Resource>  rosourceList =  role.getRosourceList();
+
+            List<RoleResource> roleResourceList = new ArrayList<RoleResource>();
+            rosourceList.forEach(resource -> {
+                roleResourceList.add(RoleResource.builder()
+                        .roleId(role.getId())
+                        .resourceId(resource.getId())
+                        .resourceModule(resource.getModule()).build());
+            });
+            //保存角色资源映射
+            roleMapper.insertBatchRoleResuorce(roleResourceList);
+        }
+        return ResultModel.success(ResultCode.SUCCESS.getCode(),"更新角色成功！");
+    }
+
+    /**
+     * 删除角色
+     * @param role
+     * @return
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @Override
+    public ResultModel deleteRole(Role role) {
+
+        int[] ids =  role.getIds();
+        for(int i=0;i<ids.length;i++){
+            //先刪除角色对应资源
+            roleMapper.deleteRoleResuorceById(ids[i]);
+            //然后删除角色
+            roleMapper.deleteById(ids[i]);
+        }
+
+
+        return ResultModel.success(ResultCode.SUCCESS.getCode(),"刪除角色成功！");
     }
 }

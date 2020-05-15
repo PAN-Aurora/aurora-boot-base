@@ -1,8 +1,10 @@
 package com.aurora.service.mapper.system;
 
 import com.aurora.model.system.Role;
+import com.aurora.model.system.RoleResource;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -15,5 +17,11 @@ import java.util.List;
  **/
 @Repository
 public interface RoleMapper extends BaseMapper<Role> {
+    //增加角色信息
+    public int  insertRole(Role roleVo);
+    //删除角色对应资源
+    public int  deleteRoleResuorceById(@Param("roleId")int roleId);
+    //批量增加角色资源
+    public int  insertBatchRoleResuorce(List<RoleResource> list);
 
 }

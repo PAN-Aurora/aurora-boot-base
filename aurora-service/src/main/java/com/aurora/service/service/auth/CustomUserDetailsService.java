@@ -46,7 +46,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 
         if(role!= null){
             //根据角色查询角色资源
-            List<Resource>  menuList =   resourceMapper.getResourceList(role.getId());
+            List<Resource>  menuList =   resourceMapper.getResourceListByRoleId(role.getId());
             user.setMenuList(menuList);
         }
         return user;
