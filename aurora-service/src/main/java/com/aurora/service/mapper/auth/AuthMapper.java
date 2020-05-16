@@ -46,6 +46,13 @@ public interface AuthMapper  extends BaseMapper<User> {
     int insertRole(@Param("userId") long userId, @Param("roleId") long roleId);
 
     /**
+     * 删除用户对应角色
+     * @param userId
+     * @return
+     */
+    int deleteUserRoleById(@Param("userId") long userId);
+
+    /**
      * 根据角色id查找角色
      * @param roleId
      * @return

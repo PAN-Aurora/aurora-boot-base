@@ -8,6 +8,7 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -37,9 +38,17 @@ public class User extends PageModel implements UserDetails  {
     @TableField("USERNAME")
     private String username;
 
+    @TableField("REAL_NAME")
+    private String realName;
+
     @TableField("PASSWORD")
     private String password;
 
+    @TableField("SEX")
+    private int sex;
+
+    @TableField("AGE")
+    private int age;
 
     @TableField(exist = false)
     @JSONField(serialize = false)
@@ -53,6 +62,10 @@ public class User extends PageModel implements UserDetails  {
     private Date lastPasswordResetDate;
 
     public User() {
+    }
+
+    public User(long id) {
+        this.id = id;
     }
 
     public User(
@@ -77,7 +90,6 @@ public class User extends PageModel implements UserDetails  {
         this.username = username;
         this.password = password;
     }
-
     //返回分配给用户的角色列表
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -86,20 +98,6 @@ public class User extends PageModel implements UserDetails  {
             authorities.add(new SimpleGrantedAuthority(role.getName()));
         }
         return authorities;
-    }
-
-    public long getId() {
-        return id;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
     }
 
     /**
@@ -131,32 +129,5 @@ public class User extends PageModel implements UserDetails  {
     public boolean isEnabled() {
         return true;
     }
-    public Date getLastPasswordResetDate() {
-        return lastPasswordResetDate;
-    }
 
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setLastPasswordResetDate(Date lastPasswordResetDate) {
-        this.lastPasswordResetDate = lastPasswordResetDate;
-    }
 }

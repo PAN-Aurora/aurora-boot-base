@@ -8,7 +8,6 @@ import lombok.*;
 import lombok.experimental.Accessors;
 
 import java.io.Serializable;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 /**
@@ -21,18 +20,18 @@ import java.sql.Timestamp;
 @TableName("SYS_LOG")
 @Builder
 @EqualsAndHashCode(callSuper=false)
-@AllArgsConstructor //全参构造函数
-@NoArgsConstructor  //无参构造函数
+@AllArgsConstructor
+@NoArgsConstructor
 public class SysLog implements Serializable {
 
-      @TableId(value = "LOG_ID", type = IdType.AUTO)
-      private int id;
+        @TableId(value = "LOG_ID", type = IdType.AUTO)
+        private int id;
 
-      @TableField("LOG_USER")
-      private String logUser;
+        @TableField("LOG_USER")
+        private String logUser;
 
-      @TableField("LOG_ROLE")
-      private String logRole;
+        @TableField("LOG_ROLE")
+        private String logRole;
 
         @TableField("LOG_MODULE")
         private String logModule;
@@ -54,7 +53,5 @@ public class SysLog implements Serializable {
 
         @TableField("LOG_TYPE")
         private int logType;
-
-
 
 }

@@ -16,8 +16,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 @EqualsAndHashCode(callSuper=false)
 @Builder
-@AllArgsConstructor //全参构造函数
-@NoArgsConstructor  //无参构造函数
+@AllArgsConstructor
+@NoArgsConstructor
 public class RoleResource {
 
 
