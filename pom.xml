@@ -154,13 +154,20 @@
 			<optional>true</optional>
 		</dependency>
 
-
 		<!-- guava限流 -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>27.1-jre</version>
 		</dependency>
+
+		<!--commons工具包-->
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.8.1</version>
+		</dependency>
+
 
 		<!--热部署 -->
 		<dependency>

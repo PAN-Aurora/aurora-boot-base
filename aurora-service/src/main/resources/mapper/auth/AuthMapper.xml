@@ -40,7 +40,21 @@
 
     <!-- 新增用户 -->
     <insert id="insertUser" parameterType="com.aurora.model.auth.User" useGeneratedKeys="true" keyProperty="id">
-        insert into sys_user (username, password,createdate) VALUES (#{username}, #{password},now());
+        insert into sys_user (
+            username,
+            password,
+            createdate,
+            status,
+            age,
+            sex
+        )
+         VALUES (#{username},
+          #{password},
+          now(),
+          0,
+          #{age},
+          #{sex}
+          )
     </insert>
 
     <!-- 新增用户权限-->

@@ -28,6 +28,11 @@ public class PageModel implements Serializable {
     @JSONField(serialize = false)
     private int limit = 10; //每页大小
 
+    @Getter
+    @TableField(exist = false)
+    @JSONField(serialize = false)
+    private int[] ids; //ids集合
+
     public int getStart() {
         start = (this.current-1) * this.limit;
         return start;

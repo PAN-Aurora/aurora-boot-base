@@ -44,7 +44,5 @@ public class Role extends PageModel {
     @TableField(exist = false)
     private List<Resource> rosourceList;
 
-    @TableField(exist = false)
-    public int[] ids;
 
 }

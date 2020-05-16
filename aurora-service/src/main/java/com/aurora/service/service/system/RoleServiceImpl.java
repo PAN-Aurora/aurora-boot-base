@@ -24,8 +24,8 @@ import java.util.List;
 import java.util.ListIterator;
 
 /**
- * ${DESCRIPTION}
- *
+ *  角色业务实现
+ *     针对角色新增，修改，删除 授权
  * @author PHQ
  * @create 2020-05-01 22:45
  **/
@@ -159,7 +159,6 @@ public class RoleServiceImpl implements RoleService {
             //然后删除角色
             roleMapper.deleteById(ids[i]);
         }
-
 
         return ResultModel.success(ResultCode.SUCCESS.getCode(),"刪除角色成功！");
     }

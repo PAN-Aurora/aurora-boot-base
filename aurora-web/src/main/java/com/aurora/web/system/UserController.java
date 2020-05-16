@@ -2,6 +2,7 @@ package com.aurora.web.system;
 
 import com.aurora.common.model.ResultCode;
 import com.aurora.common.model.ResultModel;
+import com.aurora.common.util.StringUtils;
 import com.aurora.config.annotation.GuavaRateLimiter;
 import com.aurora.config.annotation.PassJwtToken;
 import com.aurora.config.annotation.SystemLog;
@@ -11,10 +12,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeUnit;
@@ -44,5 +42,60 @@ public class UserController {
     })
     public ResultModel getUserList(User user){
         return userService.getUserList(user);
+    }
+
+
+    /**
+     * 保存用户
+     * @param user
+     * @return
+     */
+    @PostMapping(value = "/saveUser")
+    @SystemLog(module="用户管理模块",methods="保存用户",url="/api/user/saveUser", desc="保存用户")
+    @ApiOperation(value = "保存用户",notes = "保存用户",httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user", value = "用户实体对象", required = true, dataType = "com.aurora.model.auth.User")
+    })
+    public ResultModel saveUser(@RequestBody User user){
+        if(user != null && StringUtils.isNotBlank(user.getUsername())){
+            return userService.insertUser(user);
+        }
+        return ResultModel.failure(ResultCode.BAD_PARAMS);
+    }
+
+    /**
+     * 修改用户
+     * @param user
+     * @return
+     */
+    @PostMapping(value = "/updateUser")
+    @SystemLog(module="用户管理模块",methods="修改用户",url="/api/user/updateUser", desc="修改用户")
+    @ApiOperation(value = "修改用户",notes = "修改用户",httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user", value = "用户实体对象", required = true, dataType = "com.aurora.model.auth.User")
+    })
+    public ResultModel updateUser(@RequestBody User user){
+        if(user != null && StringUtils.isNotBlank(user.getUsername())){
+            return userService.updateUser(user);
+        }
+        return ResultModel.failure(ResultCode.BAD_PARAMS);
+    }
+
+    /**
+     * 删除用户
+     * @param user
+     * @return
+     */
+    @PostMapping(value = "/deleteUser")
+    @SystemLog(module="用户管理模块",methods="删除用户",url="/api/user/deleteUser", desc="删除用户")
+    @ApiOperation(value = "删除用户",notes = "删除用户",httpMethod = "POST")
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "user", value = "用户实体对象", required = true, dataType = "com.aurora.model.auth.User")
+    })
+    public ResultModel deleteUser(@RequestBody User user){
+        if(user != null && user.getIds().length>0){
+            return userService.deletetUser(user);
+        }
+        return ResultModel.failure(ResultCode.BAD_PARAMS);
     }
 }
