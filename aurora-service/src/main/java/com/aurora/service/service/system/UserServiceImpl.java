@@ -14,9 +14,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.Date;
 import java.util.List;
 
 /**
@@ -69,6 +71,11 @@ public class UserServiceImpl implements UserService{
         if(authMapper.selectCount(queryWrapper)>0){
             return ResultModel.success(ResultCode.BAD_PARAMS.getCode(),"用户名重复！");
         }
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        final String rawPassword = user.getPassword();
+
+        user.setPassword(encoder.encode(rawPassword));
+        user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
         //先新增用户
         authMapper.insertUser(user);
         //然后判断是否授权角色
