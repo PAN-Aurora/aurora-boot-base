@@ -37,7 +37,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         .excludePathPatterns("/configuration/ui")
         .excludePathPatterns("/login");
         //进行api限流拦截
-        registry.addInterceptor(new RequestInterceptor(redisUtils)).addPathPatterns("/**");
+       // registry.addInterceptor(new RequestInterceptor(redisUtils)).addPathPatterns("/**");
     }
 
     @Override

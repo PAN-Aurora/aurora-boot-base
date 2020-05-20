@@ -58,7 +58,7 @@ public class SysLog extends PageModel implements Serializable {
         private Timestamp logCreateTime;
 
         @TableField("LOG_TYPE")
-        private int logType;
+        private int logType = 0;
 
 
 }

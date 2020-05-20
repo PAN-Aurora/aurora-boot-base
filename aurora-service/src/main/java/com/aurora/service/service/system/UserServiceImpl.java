@@ -71,6 +71,9 @@ public class UserServiceImpl implements UserService{
         if(authMapper.selectCount(queryWrapper)>0){
             return ResultModel.success(ResultCode.BAD_PARAMS.getCode(),"用户名重复！");
         }
+        if(StringUtils.isBlank(user.getPassword())){
+            user.setPassword("123456");
+        }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         final String rawPassword = user.getPassword();
 
@@ -89,8 +92,13 @@ public class UserServiceImpl implements UserService{
     @Transactional(rollbackFor = Exception.class)
     public ResultModel updateUser(User user) {
 
+        if(StringUtils.isNotBlank(user.getPassword())){
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            final String rawPassword = user.getPassword();
+            user.setPassword(encoder.encode(rawPassword));
+            user.setLastPasswordResetDate(new Date(System.currentTimeMillis()));
+        }
         authMapper.updateById(user);
-
         //然后判断是否授权角色
         if(user.getRole()!= null ){
             //先刪除用户对应角色

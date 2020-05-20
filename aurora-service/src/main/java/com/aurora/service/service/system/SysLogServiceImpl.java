@@ -58,9 +58,14 @@ public class SysLogServiceImpl implements SysLogService {
         if(StringUtils.isNotBlank(sysLog.getLogModule())){
             queryWrapper.like("LOG_MODULE",sysLog.getLogModule());
         }
+        if(sysLog.getLogType()>0){
+            queryWrapper.like("LOG_TYPE",sysLog.getLogType());
+        }
         if(StringUtils.isNotBlank(sysLog.getStartTime()) && StringUtils.isNotBlank(sysLog.getEndTime())){
             queryWrapper.between("LOG_CREATE_TIME",sysLog.getStartTime(),sysLog.getEndTime());
         }
+        //根据时间排序
+        queryWrapper.orderByDesc("LOG_CREATE_TIME");
 
 
         IPage<SysLog> userIPage =  sysLogMapper.selectPage(page,queryWrapper);
