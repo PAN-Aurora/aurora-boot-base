@@ -10,6 +10,7 @@ import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
 
 /**
  *  资源实体
@@ -46,4 +47,12 @@ public class Resource extends PageModel {
 
     @TableField( value = "createdate")
     private Date createdate;
+
+    @TableField( value = "type")
+    private int type;
+
+    @TableField(exist = false)
+    private List<Resource> childResourceList;
+
+
 }

@@ -16,4 +16,11 @@ public interface ResourceService {
      * @return
      */
     public ResultModel getResourceList(Resource resource);
+
+    /**
+     * 获取资源树
+     * @param resource
+     * @return
+     */
+    public ResultModel getResourceListTree(Resource resource);
 }

@@ -58,6 +58,9 @@ public class User extends PageModel implements UserDetails  {
     private List<Resource> menuList;
 
     @TableField(exist = false)
+    private List<Resource> resourceList;
+
+    @TableField(exist = false)
     @JSONField(serialize = false)
     private Date lastPasswordResetDate;
 

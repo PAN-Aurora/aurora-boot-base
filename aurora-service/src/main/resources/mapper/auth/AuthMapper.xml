@@ -8,6 +8,7 @@
         SELECT
          t.id
         ,t.username
+        ,t.REAL_NAME
         ,t.`password`
         from sys_user t
         where t.`status` = 0

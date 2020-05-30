@@ -107,14 +107,13 @@ public class RoleServiceImpl implements RoleService {
                    roleResourceList.add(RoleResource.builder()
                            .roleId(role.getId())
                            .resourceId(resource.getId())
-                           .resourceModule(resource.getModule()).build());
+                           .build());
                });
                //保存角色资源映射
                roleMapper.insertBatchRoleResuorce(roleResourceList);
            }
           return ResultModel.success(ResultCode.SUCCESS.getCode(),"保存角色成功！");
     }
-
     /**
      * 更新角色
      * @param role
@@ -127,6 +126,7 @@ public class RoleServiceImpl implements RoleService {
         roleMapper.updateById(role);
         //先删除角色对应映射关系
         roleMapper.deleteRoleResuorceById(role.getId());
+
         if(role.getRosourceList()!=null && role.getRosourceList().size()>0){
             List<Resource>  rosourceList =  role.getRosourceList();
 
@@ -135,7 +135,7 @@ public class RoleServiceImpl implements RoleService {
                 roleResourceList.add(RoleResource.builder()
                         .roleId(role.getId())
                         .resourceId(resource.getId())
-                        .resourceModule(resource.getModule()).build());
+                        .build());
             });
             //保存角色资源映射
             roleMapper.insertBatchRoleResuorce(roleResourceList);
