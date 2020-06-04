@@ -22,8 +22,6 @@ public class RedisUtils {
     @Autowired
     private RedisTemplate redisTemplate;
 
-
-
     /**
      * 写入缓存
      *   String类型
@@ -42,6 +40,12 @@ public class RedisUtils {
         }
         return result;
     }
+
+    /**
+     * 将值自增
+     * @param key
+     * @return
+     */
     public long  increment(final String key){
         if(exists(key)){
             return redisTemplate.opsForValue().increment(key,1);
@@ -51,10 +55,12 @@ public class RedisUtils {
     }
 
     /**
-     * 写入缓存设置时效时间
+     * 写入缓存设置失效时间
      * String类型
      * @param key
      * @param value
+     * @param expireTime  失效时间
+     * @param timeUnit  时间维度 时分秒
      * @return
      */
     public boolean set(final String key, Object value, Long expireTime, TimeUnit timeUnit) {
@@ -84,7 +90,7 @@ public class RedisUtils {
     /**
      * 批量删除key
      * String类型
-     * @param pattern
+     * @param pattern 匹配表达式  * 等
      */
     public void removePattern(final String pattern) {
         Set<Serializable> keys = redisTemplate.keys(pattern);
