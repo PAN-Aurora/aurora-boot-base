@@ -13,9 +13,6 @@
     <name>aurora-web</name>
     <packaging>jar</packaging>
 
-    <properties>
-    </properties>
-
     <dependencies>
         <!--集成配置模块-->
         <dependency>
