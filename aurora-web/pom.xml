@@ -27,6 +27,13 @@
             <!--<version>1.0.0-SNAPSHOT</version>-->
         <!--</dependency>-->
 
+        <!--es接口模块-->
+        <dependency>
+            <groupId>com.aurora</groupId>
+            <artifactId>aurora-es</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+
         <!--redis接口模块-->
         <dependency>
             <groupId>com.aurora</groupId>

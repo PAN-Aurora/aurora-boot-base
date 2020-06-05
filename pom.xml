@@ -25,9 +25,10 @@
 		<module>aurora-redis</module>
 		<!--业务web模块-->
 		<module>aurora-web</module>
+		<module>aurora-es</module>
 
 
-    </modules>
+	</modules>
 
 	<!--Springboot父版本-->
     <parent>
@@ -170,6 +171,8 @@
 		</dependency>
 
 
+
+
 		<!--热部署 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -188,6 +191,9 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+
+
 	</dependencies>
 
 	<!--构建插件-->
