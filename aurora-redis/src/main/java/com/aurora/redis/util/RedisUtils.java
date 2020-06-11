@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 /**
  *  redis工具类
  *     使用RedisTemplate存储不同类型 redis 数据
+ *     https://www.redis.net.cn/
  * @author PHQ
  * @create 2020-05-08 22:01
  **/

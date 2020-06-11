@@ -1,6 +1,7 @@
 package com.aurora.web.test;
 
 import com.aurora.config.annotation.SystemLog;
+import com.aurora.es.api.EsTestApi;
 import com.aurora.redis.util.RedisUtils;
 import com.aurora.service.api.TestService;
 import com.aurora.model.test.TestModel;
@@ -28,6 +29,9 @@ public class TestController {
     @Autowired
     private RedisUtils redisUtils;
 
+    @Autowired
+    private EsTestApi esTestApi;
+
     /**
      * 模糊查询
      */
@@ -35,6 +39,14 @@ public class TestController {
     @RequestMapping(value= "/dorest",method = RequestMethod.GET)
     public String dorest(TestModel testModel) {
         String res = testService.queryList(testModel);
+        return res;
+    }
+    /**
+     * 模糊查询
+     */
+    @RequestMapping(value= "/esTest",method = RequestMethod.GET)
+    public String esTest() {
+        String res = esTestApi.createIndex();
         return res;
     }
 
