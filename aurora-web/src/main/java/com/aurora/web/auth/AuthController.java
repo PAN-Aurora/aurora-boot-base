@@ -79,40 +79,6 @@ public class AuthController {
         return ResultModel.result(ResultCode.SUCCESS);
     }
 
-    @GetMapping(value = "/user")
-    @SystemLog(module="用户权限模块",methods="查询用户",url="/api/auth/user", desc="查询用户信息")
-    @ApiOperation(value="查询用户", notes="通过接口查询用户 ",httpMethod = "GET")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "request", value = "HttpServletRequest对象需要携带token", required = true, dataType = "HttpServletRequest")
-    })
-    public ResultModel getUser(HttpServletRequest request){
-        String token = request.getHeader(tokenHeader);
-        if (token == null) {
-            return ResultModel.failure(ResultCode.UNAUTHORIZED);
-        }
-        User user = authService.getUserByToken(token);
-        return ResultModel.successData(ResultCode.SUCCESS, user);
-    }
-
-    /**
-     * 用户注册
-     * @param user
-     * @return
-     */
-    @PostMapping(value = "/sign")
-    @SystemLog(module="用户权限模块",methods="用户注册",url="/api/auth/sign", desc="用户注册")
-    @ApiOperation(value="用户注册", notes="通过接口用户注册 ",httpMethod = "POST")
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "user", value = "用户详细实体user", required = true, dataType = "com.aurora.model.auth.User")
-    })
-    public ResultModel sign(@RequestBody User user) {
-        if (StringUtils.isBlank(user.getUsername()) || StringUtils.isBlank(user.getPassword())) {
-            return ResultModel.failure(ResultCode.BAD_REQUEST);
-        }
-        User userDetail = new User(user.getUsername(), user.getPassword(), Role.builder().id(1).build());
-        return ResultModel.successData(ResultCode.SUCCESS,authService.register(userDetail));
-    }
-
     @GetMapping(value = "refresh")
     @SystemLog(module="用户权限模块",methods="刷新token",url="/api/auth/refresh", desc="刷新token")
     @ApiOperation(value="刷新token", notes="通过接口刷新token ",httpMethod = "GET")

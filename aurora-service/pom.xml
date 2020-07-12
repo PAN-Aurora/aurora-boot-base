@@ -13,15 +13,7 @@
     <name>aurora-service</name>
     <packaging>jar</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
-        <mybatis-plus-boot-starter.version>3.3.0</mybatis-plus-boot-starter.version>
-    </properties>
-
     <dependencies>
-
         <!--公共模块-->
         <dependency>
             <groupId>com.aurora</groupId>

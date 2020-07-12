@@ -25,9 +25,10 @@
 		<module>aurora-redis</module>
 		<!--业务web模块-->
 		<module>aurora-web</module>
+		<module>aurora-es</module>
 
 
-    </modules>
+	</modules>
 
 	<!--Springboot父版本-->
     <parent>
@@ -133,6 +134,7 @@
 			<artifactId>spring-boot-starter-security</artifactId>
 		</dependency>
 
+
 		<!--集成 jwt -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -168,7 +170,6 @@
 			<version>3.8.1</version>
 		</dependency>
 
-
 		<!--热部署 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -187,6 +188,9 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+
+
 	</dependencies>
 
 	<!--构建插件-->

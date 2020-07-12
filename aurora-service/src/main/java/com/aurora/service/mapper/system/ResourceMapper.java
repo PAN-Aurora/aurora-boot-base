@@ -1,6 +1,7 @@
 package com.aurora.service.mapper.system;
 
 import com.aurora.model.system.Resource;
+import com.aurora.model.system.vo.MenuTree;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
@@ -16,6 +17,11 @@ import java.util.List;
 @Repository
 public interface ResourceMapper extends BaseMapper<Resource> {
 
+    //获取上有所菜单权限
     public List<Resource> getResourceListByRoleId(@Param("roleId") long roleId);
+    //获取所有按钮权限
+    public List<Resource> getResourceListByType(@Param("roleId") long roleId);
+    //通过父节点获取菜单数据
+    public List<MenuTree> getResourceListByParentId(@Param("pid") int pid);
 
 }

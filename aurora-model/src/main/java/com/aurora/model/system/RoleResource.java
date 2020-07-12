@@ -30,6 +30,5 @@ public class RoleResource {
     @TableField("resource_id")
     private int resourceId;
 
-    @TableField("resource_module")
-    private String resourceModule;
+
 }

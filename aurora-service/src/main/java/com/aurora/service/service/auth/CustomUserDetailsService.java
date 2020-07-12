@@ -48,7 +48,29 @@ public class CustomUserDetailsService implements UserDetailsService {
             //根据角色查询角色资源
             List<Resource>  menuList =   resourceMapper.getResourceListByRoleId(role.getId());
             user.setMenuList(menuList);
+
+            List<Resource>  resourceList =   resourceMapper.getResourceListByType(role.getId());
+            user.setResourceList(resourceList);
         }
+
+//        if(role!= null){
+//            //根据角色查询角色资源
+//            List<Resource>  menuList =   resourceMapper.getResourceListByParentId(role.getId(),0);
+//            menuList.forEach(menu ->{
+//                //二级
+//                List<Resource>  childList =  resourceMapper.getResourceListByParentId(role.getId(),menu.getId());
+//                menu.setChildResourceList(childList);
+//
+//                //三级
+//                if(childList !=null && childList.size()>0){
+//                    childList.forEach(child ->{
+//                        List<Resource>  threeList =  resourceMapper.getResourceListByParentId(role.getId(),child.getId());
+//                        child.setChildResourceList(threeList);
+//                    });
+//                }
+//            });
+//            user.setResourceList(menuList);
+//        }
         return user;
     }
 }

@@ -1,8 +1,10 @@
 package com.aurora.service.service.system;
 
 import com.alibaba.fastjson.JSON;
+import com.aurora.common.model.ResultCode;
 import com.aurora.common.model.ResultModel;
 import com.aurora.model.system.Resource;
+import com.aurora.model.system.vo.MenuTree;
 import com.aurora.service.api.system.ResourceService;
 import com.aurora.service.mapper.system.ResourceMapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -12,6 +14,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -26,7 +29,7 @@ public class ResourceServiceImpl  implements ResourceService {
     private ResourceMapper resourceMapper;
 
     /**
-     * 查询用户列表
+     * 资源列表
      * @return
      */
     public ResultModel getResourceList(Resource resource){
@@ -41,6 +44,29 @@ public class ResourceServiceImpl  implements ResourceService {
         List<Resource> roleList =  userIPage.getRecords();
 
         return ResultModel.successPage(roleList,userIPage.getTotal());
+
+    }
+    /**
+     * 查询资源树
+     * @return
+     */
+    public ResultModel getResourceListTree(Resource resource){
+
+         //一级菜单
+        List<MenuTree>  menuTreeList =   resourceMapper.getResourceListByParentId(0);
+        menuTreeList.forEach(menu ->{
+            //二级
+            List<MenuTree>  childList =  resourceMapper.getResourceListByParentId(menu.getIdKey());
+            menu.setChildren(childList);
+            //三级
+            if(childList !=null && childList.size()>0){
+                childList.forEach(child ->{
+                    List<MenuTree>  threeList =  resourceMapper.getResourceListByParentId(child.getIdKey());
+                    child.setChildren(threeList);
+                });
+            }
+        });
+        return ResultModel.successData(ResultCode.SUCCESS,menuTreeList);
 
     }
 

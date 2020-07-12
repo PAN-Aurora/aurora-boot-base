@@ -47,6 +47,8 @@ public class RedisConfig extends CachingConfigurerSupport {
      */
     @Bean
     public JedisConnectionFactory jedisConnectionFactory (){
+        logger.info("############构建JedisConnectionFactory#############");
+
         //创建redis配置对象 配置地址 端口 密码
         RedisStandaloneConfiguration redis=new RedisStandaloneConfiguration();
         redis.setDatabase(jedisConfig.database);
@@ -79,9 +81,11 @@ public class RedisConfig extends CachingConfigurerSupport {
      */
     @Bean
     public RedisTemplate redisTemplate(){
+        logger.info("############构建RedisTemplate#############");
 
         //创建redis序列化对象Jackson2JsonRedisSerializer
         Jackson2JsonRedisSerializer jackson2JsonRedisSerializer=new Jackson2JsonRedisSerializer(Object.class);
+
         ObjectMapper om = new ObjectMapper();
         om.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
         om.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
