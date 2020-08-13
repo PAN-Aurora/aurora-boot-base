@@ -51,9 +51,6 @@ public class EsUtil {
         client = this.transportClient;
     }
 
-            ;
-
-
     /**
      * 创建索引
      *
