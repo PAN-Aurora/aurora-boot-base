@@ -1,5 +1,8 @@
 package com.aurora.es.api;
 
+import com.aurora.common.model.ResultModel;
+import com.aurora.model.test.EsTest;
+
 /**
  * todo..
  *
@@ -9,5 +12,7 @@ package com.aurora.es.api;
 public interface EsTestApi {
 
     public String  createIndex();
+
+    public ResultModel queryTest(EsTest esTest);
 
 }

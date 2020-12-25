@@ -1,5 +1,6 @@
 package com.aurora.es.config;
 
+import com.aurora.common.util.StringUtils;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.TransportAddress;
@@ -65,8 +66,25 @@ public class ElasticSearchConfig {
                     .build();
             //配置信息Settings自定义
             transportClient = new PreBuiltTransportClient(esSetting);
-            TransportAddress transportAddress = new TransportAddress(InetAddress.getByName(hostName), Integer.valueOf(port));
-            transportClient.addTransportAddresses(transportAddress);
+
+            if(StringUtils.isNotBlank(hostName) && hostName.contains(",")){
+                  String[] hostNameArray = hostName.split(",");
+                  String[] portArray = port.split(",");
+                  //集群模块 多个节点
+                  for(int i=0; i<hostNameArray.length ;i++){
+                      TransportAddress transportAddress = new TransportAddress(
+                              InetAddress.getByName(hostNameArray[i]),
+                              Integer.valueOf(portArray[i]));
+                      transportClient.addTransportAddresses(transportAddress);
+                  }
+            }else{
+                TransportAddress transportAddress = new TransportAddress(
+                        InetAddress.getByName(hostName),
+                        Integer.valueOf(port));
+                transportClient.addTransportAddresses(transportAddress);
+            }
+
+
         } catch (Exception e) {
             LOGGER.error("获取 TransportClient失败!", e);
         }
