@@ -1,7 +1,5 @@
 package com.aurora.common.model;
 
-import com.alibaba.fastjson.JSON;
-import com.aurora.common.util.FastJsonUtils;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,7 +34,7 @@ public class ResultModel <T>  implements Serializable {
      * 默认失败
      * @return
      */
-    public static  ResultModel failure(){
+    public static ResultModel failure(){
         return new ResultModel(ResultCode.BAD_REQUEST.getCode(),ResultCode.BAD_REQUEST.getMsg()) ;
     }
 
@@ -45,7 +43,7 @@ public class ResultModel <T>  implements Serializable {
      * @param resultCode
      * @return
      */
-    public static  ResultModel failure(ResultCode resultCode){
+    public static ResultModel failure(ResultCode resultCode){
         return new ResultModel(resultCode.getCode(),resultCode.getMsg()) ;
     }
 
@@ -55,7 +53,7 @@ public class ResultModel <T>  implements Serializable {
      * @param message
      * @return
      */
-    public static  ResultModel failure(ResultCode resultCode, String message){
+    public static ResultModel failure(ResultCode resultCode, String message){
         return new ResultModel(resultCode.getCode(),message) ;
     }
 
@@ -64,7 +62,7 @@ public class ResultModel <T>  implements Serializable {
      * @param resultCode
      * @return
      */
-    public static  ResultModel result(ResultCode resultCode){
+    public static ResultModel result(ResultCode resultCode){
         return new ResultModel(resultCode.getCode(),resultCode.getMsg()) ;
     }
 
@@ -72,7 +70,7 @@ public class ResultModel <T>  implements Serializable {
      * 成功  默认返回不带参数
      * @return
      */
-    public static  ResultModel success(){
+    public static ResultModel success(){
         return new ResultModel(ResultCode.SUCCESS.getCode(),ResultCode.SUCCESS.getMsg()) ;
     }
 
@@ -80,7 +78,7 @@ public class ResultModel <T>  implements Serializable {
      * 成功  默认返回不带参数
      * @return
      */
-    public static  ResultModel success(int code,String msg){
+    public static ResultModel success(int code, String msg){
         return new ResultModel(code,msg) ;
     }
     /**
@@ -89,7 +87,7 @@ public class ResultModel <T>  implements Serializable {
      * @param data
      * @return
      */
-    public static  ResultModel successData(ResultCode resultCode,Object data){
+    public static ResultModel successData(ResultCode resultCode, Object data){
         return new ResultModel(
                   resultCode.getCode()
                 , resultCode.getMsg()
@@ -101,7 +99,7 @@ public class ResultModel <T>  implements Serializable {
      * @param count
      * @return
      */
-    public static  ResultModel successPage(Object data,long count){
+    public static ResultModel successPage(Object data, long count){
         Map<String,Object> map = new  HashMap<String,Object>();
         map.put("count",count);
         map.put("list",data);
